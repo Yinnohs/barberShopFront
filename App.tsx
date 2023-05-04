@@ -1,7 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Router from './src/router/Router';
+import { ThemeProvider } from './src/theme';
 
 export default function App() {
-  return <View></View>;
+  return (
+    <ThemeProvider>
+      <Router />
+    </ThemeProvider>
+  );
 }

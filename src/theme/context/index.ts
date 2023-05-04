@@ -1,1 +1,1 @@
-export * from './themeMode';
+export * from './themeContext';
