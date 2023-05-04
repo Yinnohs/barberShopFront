@@ -1,16 +1,25 @@
 import { ReactNode } from 'react';
-import { StyleSheet, View } from 'react-native/types';
+import { StyleSheet, View } from 'react-native';
+import { NavBar } from '../nav';
 
 interface Props {
   children: ReactNode;
 }
 
 export const Layout: React.FunctionComponent<Props> = ({ children }) => {
-  return <View>{children}</View>;
+  return (
+    <View style={[styles.container]}>
+      {children}
+      <NavBar />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
   },
 });
