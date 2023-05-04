@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { Layout } from '../../components/layout';
+import { Layout } from '../layout';
 
 export const Home = () => {
   return (

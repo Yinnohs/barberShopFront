@@ -5,10 +5,21 @@ import { Auth } from '../pages/auth/Auth';
 import { Login } from '../pages/login';
 import { Home } from '../pages/home';
 import { Register } from '../pages/register/Register';
+import { useContext } from 'react';
+import { ThemeContext, appTheme } from '../theme';
 
 const Stack = createNativeStackNavigator<RootStack>();
 
 const Router = () => {
+  const { theme } = useContext(ThemeContext);
+
+  const headerBase = {
+    headerBackTitleVisible: false,
+    title: '',
+    headerTintColor: appTheme[theme].colorPrimary,
+    headerStyle: { backgroundColor: appTheme[theme].colorBackground },
+  };
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -17,15 +28,11 @@ const Router = () => {
           component={Auth}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerBackTitleVisible: false, title: '' }}
-        />
+        <Stack.Screen name="Login" component={Login} options={headerBase} />
         <Stack.Screen
           name="Register"
           component={Register}
-          options={{ headerBackTitleVisible: false, title: '' }}
+          options={headerBase}
         />
         <Stack.Screen
           name="Home"

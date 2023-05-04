@@ -12,14 +12,20 @@ export const Auth = () => {
   useEffect(() => {});
 
   return (
-    <View style={[styles.container, styles.center, styles.darkBg]}>
+    <View
+      style={[
+        styles.container,
+        styles.center,
+        { backgroundColor: appTheme[theme].colorBackground },
+      ]}
+    >
       <BasicButton
         action={() => navigation.navigate('Register')}
-        bgColor={appTheme[theme!].colorPrimary}
+        bgColor={appTheme[theme].colorPrimary}
         height="8%"
         width="40%"
         rounded={true}
-        textColor="#FFF"
+        textColor={appTheme[theme].colorSurface}
         title="Registrate"
         type="filled"
         textSize={20}
@@ -27,11 +33,11 @@ export const Auth = () => {
 
       <BasicButton
         action={() => navigation.navigate('Login')}
-        bgColor={appTheme[theme!].colorPrimary}
+        bgColor={appTheme[theme].colorSecondary}
         height="8%"
         width="40%"
         rounded={true}
-        textColor="#000"
+        textColor={appTheme[theme].colorPrimary}
         title="Logueate"
         type="outline"
         textSize={20}
@@ -50,12 +56,5 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-
-  darkBg: {
-    backgroundColor: appTheme.dark.colorBackground,
-  },
-  lightBg: {
-    backgroundColor: appTheme.light.colorBackground,
   },
 });

@@ -1,6 +1,6 @@
 import { ReactNode, useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { NavBar } from '../nav';
+import { NavBar } from '../../components/nav';
 import { ThemeContext, appTheme } from '../../theme';
 
 interface Props {
@@ -10,12 +10,7 @@ interface Props {
 export const Layout: React.FunctionComponent<Props> = ({ children }) => {
   const { theme } = useContext(ThemeContext);
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: appTheme[theme].colorBackground },
-      ]}
-    >
+    <View style={[styles.container]}>
       {children}
       <NavBar />
     </View>

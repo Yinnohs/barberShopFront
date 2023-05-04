@@ -2,7 +2,7 @@ export const appTheme = {
   light: {
     colorPrimary: '#4F4557',
     colorSecondary: '#6D5D6E',
-    colorBackground: '#393646',
+    colorBackground: '#FFF',
     colorSurface: '#F4EEE0',
 
     shadowOne: {
@@ -42,8 +42,8 @@ export const appTheme = {
   dark: {
     colorPrimary: '#F4EEE0',
     colorSecondary: '#6D5D6E',
-    colorBackground: '#FFFFFF',
-    colorWarning: '#4F4557',
+    colorBackground: '#393646',
+    colorSurface: '#4F4557',
 
     shadowOne: {
       shadowColor: '#FFFFFF',

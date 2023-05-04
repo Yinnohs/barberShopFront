@@ -1,5 +1,6 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
+import { ThemeContext, appTheme } from '../../theme';
 
 interface Props {
   action: Function;
@@ -24,20 +25,23 @@ export const BasicButton: FC<Props> = ({
   rounded,
   textSize,
 }) => {
+  const { theme } = useContext(ThemeContext);
   return (
     <TouchableOpacity
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignContent: 'center',
-        width,
-        height,
-        borderColor: bgColor,
-        backgroundColor: type === 'outline' ? 'none' : bgColor,
-        borderWidth: 2,
-        borderRadius: rounded ? 20 : 0,
-      }}
+      style={[
+        {
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignContent: 'center',
+          width,
+          height,
+          borderColor: bgColor,
+          backgroundColor: type === 'outline' ? 'none' : bgColor,
+          borderWidth: 2,
+          borderRadius: rounded ? 20 : 0,
+        },
+      ]}
       onPress={() => action()}
     >
       <Text
