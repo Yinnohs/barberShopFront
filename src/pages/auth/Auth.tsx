@@ -13,12 +13,29 @@ export const Auth = () => {
 
   return (
     <View style={[styles.container, styles.center, styles.darkBg]}>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Home')}
-        style={[styles.button, styles.center, styles.buttonOutline]}
-      >
-        <Text> Cambiar Tema </Text>
-      </TouchableOpacity>
+      <BasicButton
+        action={() => navigation.navigate('Register')}
+        bgColor={appTheme[theme!].colorPrimary}
+        height="8%"
+        width="40%"
+        rounded={true}
+        textColor="#FFF"
+        title="Registrate"
+        type="filled"
+        textSize={20}
+      />
+
+      <BasicButton
+        action={() => navigation.navigate('Login')}
+        bgColor={appTheme[theme!].colorPrimary}
+        height="8%"
+        width="40%"
+        rounded={true}
+        textColor="#000"
+        title="Logueate"
+        type="outline"
+        textSize={20}
+      />
     </View>
   );
 };
@@ -31,8 +48,8 @@ const styles = StyleSheet.create({
   center: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
   },
 
   darkBg: {
@@ -41,17 +58,4 @@ const styles = StyleSheet.create({
   lightBg: {
     backgroundColor: appTheme.light.colorBackground,
   },
-
-  button: {
-    width: '40%',
-    height: '8%',
-    borderRadius: 20,
-  },
-
-  buttonOutline: {
-    color: appTheme.light.colorPrimary,
-    backgroundColor: appTheme.light.colorSurface,
-  },
-
-  buttonFilled: {},
 });

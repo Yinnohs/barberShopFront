@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Auth } from '../pages/auth/Auth';
 import { Login } from '../pages/login';
 import { Home } from '../pages/home';
+import { Register } from '../pages/register/Register';
 
 const Stack = createNativeStackNavigator<RootStack>();
 
@@ -11,8 +12,21 @@ const Router = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Auth" component={Auth} />
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen
+          name="Auth"
+          component={Auth}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerBackTitleVisible: false, title: '' }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ headerBackTitleVisible: false, title: '' }}
+        />
         <Stack.Screen
           name="Home"
           component={Home}

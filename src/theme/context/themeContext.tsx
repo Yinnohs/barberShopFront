@@ -3,7 +3,7 @@ import { FC, createContext, useState } from 'react';
 import { ColorSchemeName, useColorScheme } from 'react-native';
 
 export interface IThemeContext {
-  theme: ColorSchemeName;
+  theme: 'light' | 'dark';
   setTheme: Function;
 }
 
@@ -13,7 +13,7 @@ export const ThemeContext = createContext<IThemeContext>({
 });
 
 export const ThemeProvider: FC<any> = ({ children }) => {
-  const [theme, setTheme] = useState<ColorSchemeName>('light');
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   const handleThemeChange = () => {
     theme === 'light' ? setTheme('dark') : setTheme('light');

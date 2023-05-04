@@ -1,14 +1,21 @@
-import { ReactNode } from 'react';
+import { ReactNode, useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavBar } from '../nav';
+import { ThemeContext, appTheme } from '../../theme';
 
 interface Props {
   children: ReactNode;
 }
 
 export const Layout: React.FunctionComponent<Props> = ({ children }) => {
+  const { theme } = useContext(ThemeContext);
   return (
-    <View style={[styles.container]}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: appTheme[theme].colorBackground },
+      ]}
+    >
       {children}
       <NavBar />
     </View>
