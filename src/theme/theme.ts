@@ -4,6 +4,7 @@ export const appTheme = {
     colorSecondary: '#6D5D6E',
     colorBackground: '#FFF',
     colorSurface: '#F4EEE0',
+    colorInput: '#E4DED0',
 
     shadowOne: {
       shadowColor: '#000000',
@@ -44,6 +45,7 @@ export const appTheme = {
     colorSecondary: '#6D5D6E',
     colorBackground: '#393646',
     colorSurface: '#4F4557',
+    colorInput: '#5F4567',
 
     shadowOne: {
       shadowColor: '#FFFFFF',

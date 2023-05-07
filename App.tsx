@@ -1,10 +1,15 @@
 import Router from './src/router/Router';
 import { ThemeProvider } from './src/theme';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const client = new QueryClient();
 
 export default function App() {
   return (
     <ThemeProvider>
-      <Router />
+      <QueryClientProvider client={client}>
+        <Router />
+      </QueryClientProvider>
     </ThemeProvider>
   );
 }

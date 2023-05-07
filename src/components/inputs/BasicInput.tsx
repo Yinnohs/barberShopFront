@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  TextInputProps,
 } from 'react-native';
 import MaterialDesingIcons from '@expo/vector-icons/MaterialIcons';
 import { ThemeContext, appTheme } from '../../theme';
@@ -19,6 +20,9 @@ interface Props {
   variation?: InputVariation;
   max?: number;
   min?: number;
+  iconName?: string;
+  error?: string;
+  onFocusFunction: Function;
 }
 
 const defineVariation = (variation?: InputVariation) => {
@@ -34,7 +38,7 @@ const defineVariation = (variation?: InputVariation) => {
   }
 };
 
-export const BasicInput: FC<Props> = ({
+export const BasicInput: FC<Props & TextInputProps> = ({
   action,
   type,
   labelString,
@@ -42,9 +46,14 @@ export const BasicInput: FC<Props> = ({
   max,
   min,
   variation,
+  iconName,
+  placeholder,
+  error,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const { theme } = useContext(ThemeContext);
+  const InputVariation = defineVariation(variation);
 
   const validations = (value: string) => {
     switch (type) {
@@ -66,37 +75,67 @@ export const BasicInput: FC<Props> = ({
   return (
     <View style={[styles.container]}>
       <View>
-        <Text style={{ fontSize: 20, color: appTheme[theme].colorPrimary }}>
+        <Text
+          style={{
+            fontSize: 15,
+            color: error
+              ? appTheme.colorWarning
+              : appTheme[theme].colorSecondary,
+          }}
+        >
           {labelString}
         </Text>
+
         <View
           style={{
             width: '100%',
-            height: '70%',
+            height: '80%',
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
+            backgroundColor: appTheme[theme].colorInput,
+            borderRadius: 5,
+            borderWidth: isFocused ? 2 : 1,
+            borderColor: error
+              ? appTheme.colorWarning
+              : isFocused
+              ? appTheme[theme].colorPrimary
+              : appTheme[theme].colorSurface,
           }}
         >
-          <TextInput
+          <MaterialDesingIcons
+            name={iconName as any}
             style={{
-              borderRadius: 30,
-              borderWidth: 2,
-              width: '80%',
-              height: '100%',
-              fontSize: 20,
-              padding: 25,
+              fontSize: 30,
               color: appTheme[theme].colorPrimary,
-              borderColor: appTheme[theme].colorPrimary,
+              marginHorizontal: 10,
             }}
+          />
+          <TextInput
+            style={[
+              {
+                width: '80%',
+                height: '100%',
+                fontSize: 20,
+                paddingLeft: 10,
+                color: appTheme[theme].colorPrimary,
+                backgroundColor: 'none',
+              },
+            ]}
             value={value}
             onChangeText={(value) => validations(value)}
             keyboardType={type === 'number' ? 'number-pad' : 'default'}
-            textContentType={defineVariation(variation)}
+            textContentType={InputVariation}
             secureTextEntry={
               variation === 'password' && !isVisible ? true : false
             }
-            multiline={false}
+            placeholder={placeholder}
+            onFocus={() => {
+              setIsFocused(true);
+            }}
+            onBlur={() => {
+              setIsFocused(false);
+            }}
           />
           {variation === 'password' ? (
             <TouchableOpacity
@@ -111,13 +150,20 @@ export const BasicInput: FC<Props> = ({
           ) : null}
         </View>
       </View>
+      {error && (
+        <Text
+          style={[{ color: appTheme.colorWarning, fontSize: 15, marginTop: 5 }]}
+        >
+          {error}
+        </Text>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: '15%',
+    height: '13%',
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
