@@ -123,7 +123,7 @@ export const Login = () => {
         ]}
         style={[
           {
-            height: '80%',
+            height: '60%',
             width: '100%',
             backgroundColor: appTheme[theme].colorSurface,
             borderRadius: 40,

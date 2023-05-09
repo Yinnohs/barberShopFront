@@ -130,6 +130,7 @@ export const BasicInput: FC<Props & TextInputProps> = ({
               variation === 'password' && !isVisible ? true : false
             }
             placeholder={placeholder}
+            placeholderTextColor={appTheme[theme].colorSecondary}
             onFocus={() => {
               setIsFocused(true);
             }}
