@@ -1,6 +1,6 @@
 import { FC, useContext } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
-import { ThemeContext, appTheme } from '../../theme';
+import { ThemeContext } from '../../context';
 
 interface Props {
   action: Function;
@@ -25,7 +25,6 @@ export const BasicButton: FC<Props> = ({
   rounded,
   textSize,
 }) => {
-  const { theme } = useContext(ThemeContext);
   return (
     <TouchableOpacity
       style={[

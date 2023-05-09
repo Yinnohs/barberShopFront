@@ -11,6 +11,16 @@ export const NavBar = () => {
         page="Home"
         iconColor={appTheme.light.colorSurface}
       />
+      <NavButton
+        iconName="person"
+        page="AdminHome"
+        iconColor={appTheme.light.colorSurface}
+      />
+      <NavButton
+        iconName="gear"
+        page="Profile"
+        iconColor={appTheme.light.colorSurface}
+      />
     </View>
   );
 };

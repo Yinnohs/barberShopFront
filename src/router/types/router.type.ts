@@ -3,11 +3,17 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export type RootStack = {
   Auth: undefined;
-  Admin: undefined;
+  AdminHome: undefined;
+  AdminBarber: undefined;
+  AdminServices: undefined;
+  AdminBarberForm: undefined;
+  AdminServiceForm: undefined;
   Home: undefined;
   Profile: undefined;
   Login: undefined;
   Register: undefined;
+  AppointmentFirst: undefined;
+  AppointmentSecond: undefined;
 };
 
 export type AuthRouteType = NativeStackNavigationProp<any, 'Auth'>;

@@ -1,9 +1,10 @@
 import { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { ThemeContext, appTheme } from '../../theme';
+import { ThemeContext } from '../../context';
 import { useNavigation } from '@react-navigation/native';
 import { RouteStackSelection, RootStack } from '../../router';
 import { BasicButton } from '../../components/Buttons';
+import { appTheme } from '../../theme';
 
 export const Auth = () => {
   const { theme, setTheme } = useContext(ThemeContext);

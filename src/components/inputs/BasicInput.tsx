@@ -8,7 +8,8 @@ import {
   TextInputProps,
 } from 'react-native';
 import MaterialDesingIcons from '@expo/vector-icons/MaterialIcons';
-import { ThemeContext, appTheme } from '../../theme';
+import { ThemeContext } from '../../context';
+import { appTheme } from '../../theme';
 
 type InputVariation = 'phone' | 'email' | 'password';
 

@@ -1,7 +1,7 @@
 import { ReactNode, useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavBar } from '../../components/nav';
-import { ThemeContext, appTheme } from '../../theme';
+import { ThemeContext } from '../../context';
 
 interface Props {
   children: ReactNode;

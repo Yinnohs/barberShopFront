@@ -6,7 +6,8 @@ import {
   useWindowDimensions,
   Text,
 } from 'react-native';
-import { ThemeContext, appTheme } from '../../theme';
+import { ThemeContext } from '../../context';
+import { appTheme } from '../../theme';
 
 interface LoaderProps {
   isVisible: boolean;

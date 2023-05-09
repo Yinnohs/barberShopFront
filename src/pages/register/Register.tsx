@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { appTheme } from '../../theme';
 import { useContext, useState } from 'react';
-import { ThemeContext } from '../../theme';
+import { ThemeContext } from '../../context';
 import { BasicInput } from '../../components/inputs';
 import { BasicButton } from '../../components/Buttons';
 import { useNavigation } from '@react-navigation/native';
