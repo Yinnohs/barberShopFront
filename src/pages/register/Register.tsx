@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { appTheme } from '../../theme';
 import { useContext, useState } from 'react';
-import { ThemeContext } from '../../context';
+import { AuthContext, IAuthData, ThemeContext } from '../../context';
 import { BasicInput } from '../../components/inputs';
 import { BasicButton } from '../../components/Buttons';
 import { useNavigation } from '@react-navigation/native';
@@ -30,6 +30,7 @@ const inputs = {
 };
 
 export const Register = () => {
+  const { setAuthData } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
   const [formValues, setFormValues] = useState(inputs);
@@ -97,6 +98,13 @@ export const Register = () => {
 
     await saveAccessToken(data?.access_token);
     await saveRefreshToken(data?.refresh_token);
+    const authData: IAuthData = {
+      isLogged: true,
+      role: data?.role,
+      rToken: data?.refresh_token,
+      token: data?.access_token,
+    };
+    setAuthData(authData);
     setIsLoading(false);
     navigation.navigate('Home');
   };

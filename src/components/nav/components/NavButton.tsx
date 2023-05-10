@@ -5,9 +5,10 @@ import {
   RootStackRoutingString,
   RouteStackSelection,
 } from '../../../router';
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { appTheme } from '../../../theme';
+import { ThemeContext } from '../../../context';
 
 interface Props {
   page: RootStackRoutingString;
@@ -17,12 +18,13 @@ interface Props {
 }
 
 export const NavButton: FC<Props> = ({ page, title, iconName, iconColor }) => {
+  const { theme } = useContext(ThemeContext);
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
 
   return (
     <>
       <TouchableOpacity
-        style={[styles.button, appTheme.dark.shadowOne]}
+        style={[styles.button, appTheme[theme].shadowOne]}
         onPress={() => navigation.navigate(page)}
       >
         {title ?? <Text>{title}</Text>}

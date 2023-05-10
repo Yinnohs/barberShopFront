@@ -1,25 +1,42 @@
 import { StyleSheet, View } from 'react-native';
 import { appTheme } from '../../theme';
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavButton } from './components';
+import { AuthContext, ThemeContext } from '../../context';
 
 export const NavBar = () => {
+  const { authData } = useContext(AuthContext);
+  const { theme } = useContext(ThemeContext);
   return (
-    <View style={[styles.container, appTheme.light.shadowTwo]}>
+    <View style={[styles.container, appTheme[theme].shadowOne]}>
       <NavButton
         iconName="home"
         page="Home"
-        iconColor={appTheme.light.colorSurface}
+        iconColor={appTheme[theme].colorPrimary}
+      />
+      {authData.role === 'ADMIN' ? (
+        <NavButton
+          iconName="person"
+          page="AdminHome"
+          iconColor={appTheme[theme].colorPrimary}
+        />
+      ) : (
+        <></>
+      )}
+      <NavButton
+        iconName="schedule"
+        page="AppointmentFirst"
+        iconColor={appTheme[theme].colorPrimary}
       />
       <NavButton
-        iconName="person"
-        page="AdminHome"
-        iconColor={appTheme.light.colorSurface}
+        iconName="book"
+        page="AppointmentFirst"
+        iconColor={appTheme[theme].colorPrimary}
       />
       <NavButton
-        iconName="gear"
+        iconName="settings"
         page="Profile"
-        iconColor={appTheme.light.colorSurface}
+        iconColor={appTheme[theme].colorPrimary}
       />
     </View>
   );
@@ -31,7 +48,7 @@ const styles = StyleSheet.create({
     height: '10%',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     gap: 5,
     paddingBottom: 10,

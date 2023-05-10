@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { appTheme } from '../../theme';
 import { useContext, useState } from 'react';
-import { ThemeContext } from '../../context';
+import { AuthContext, IAuthData, ThemeContext } from '../../context';
 import { BasicInput } from '../../components/inputs';
 import { BasicButton } from '../../components/Buttons';
 import { useNavigation } from '@react-navigation/native';
@@ -28,6 +28,7 @@ const inputs = {
 };
 
 export const Login = () => {
+  const { setAuthData } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
   const [formValues, setFormValues] = useState(inputs);
@@ -67,7 +68,7 @@ export const Login = () => {
     navigation.navigate('Auth');
   };
 
-  const handleRegister = async () => {
+  const handleLogin = async () => {
     const isValidForm = validate();
 
     if (!isValidForm) {
@@ -85,6 +86,13 @@ export const Login = () => {
 
     await saveAccessToken(data?.access_token);
     await saveRefreshToken(data?.refresh_token);
+    const authData: IAuthData = {
+      isLogged: true,
+      role: data?.role,
+      rToken: data?.refresh_token,
+      token: data?.access_token,
+    };
+    setAuthData(authData);
     setIsLoading(false);
     navigation.navigate('Home');
   };
@@ -174,7 +182,7 @@ export const Login = () => {
           }}
         >
           <BasicButton
-            action={() => handleRegister()}
+            action={() => handleLogin()}
             bgColor={appTheme[theme].colorPrimary}
             height={60}
             width={150}

@@ -6,7 +6,8 @@ import { Login } from '../pages/login';
 import { Home } from '../pages/home';
 import { Register } from '../pages/register/Register';
 import { useContext } from 'react';
-import { ThemeContext, appTheme } from '../theme';
+import { ThemeContext } from '../context';
+import { appTheme } from '../theme';
 
 const Stack = createNativeStackNavigator<RootStack>();
 
