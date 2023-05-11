@@ -24,7 +24,7 @@ export const NavBar = () => {
         <></>
       )}
       <NavButton
-        iconName="schedule"
+        iconName="calendar-today"
         page="AppointmentFirst"
         iconColor={appTheme[theme].colorPrimary}
       />
