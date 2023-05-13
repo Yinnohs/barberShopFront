@@ -8,6 +8,13 @@ import { Register } from '../pages/register/Register';
 import { useContext } from 'react';
 import { ThemeContext } from '../context';
 import { appTheme } from '../theme';
+import {
+  AdminBarber,
+  Admin,
+  AdminBarnberForm,
+  AdminService,
+  AdminServiceForm,
+} from '../pages/Admin';
 
 const Stack = createNativeStackNavigator<RootStack>();
 
@@ -39,6 +46,31 @@ const Router = () => {
           name="Home"
           component={Home}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen name="AdminHome" component={Admin} options={headerBase} />
+
+        <Stack.Screen
+          name="AdminBarber"
+          component={AdminBarber}
+          options={headerBase}
+        />
+
+        <Stack.Screen
+          name="AdminBarberForm"
+          component={AdminBarnberForm}
+          options={headerBase}
+        />
+
+        <Stack.Screen
+          name="AdminServices"
+          component={AdminService}
+          options={headerBase}
+        />
+
+        <Stack.Screen
+          name="AdminServiceForm"
+          component={AdminServiceForm}
+          options={headerBase}
         />
       </Stack.Navigator>
     </NavigationContainer>

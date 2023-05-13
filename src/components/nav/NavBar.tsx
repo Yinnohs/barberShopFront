@@ -8,13 +8,19 @@ export const NavBar = () => {
   const { authData } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   return (
-    <View style={[styles.container, appTheme[theme].shadowOne]}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: appTheme[theme].colorSurface },
+        appTheme[theme].shadowOne,
+      ]}
+    >
       <NavButton
         iconName="home"
         page="Home"
         iconColor={appTheme[theme].colorPrimary}
       />
-      {authData.role === 'ADMIN' ? (
+      {authData.role !== 'ADMIN' ? (
         <NavButton
           iconName="person"
           page="AdminHome"
@@ -55,6 +61,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     left: 0,
-    backgroundColor: appTheme.light.colorBackground,
   },
 });

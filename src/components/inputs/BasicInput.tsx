@@ -24,6 +24,8 @@ interface Props {
   iconName?: string;
   error?: string;
   onFocusFunction: Function;
+  marginVertical?: number;
+  heigth?: string | number;
 }
 
 const defineVariation = (variation?: InputVariation) => {
@@ -50,6 +52,8 @@ export const BasicInput: FC<Props & TextInputProps> = ({
   iconName,
   placeholder,
   error,
+  marginVertical,
+  heigth,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -65,16 +69,25 @@ export const BasicInput: FC<Props & TextInputProps> = ({
         if (
           !isNaN(numericalValue) ||
           numericalValue > min! ||
-          numericalValue < max!
+          numericalValue < max! ||
+          value === ''
         ) {
-          action(type);
+          action(value);
         }
         break;
     }
   };
 
   return (
-    <View style={[styles.container]}>
+    <View
+      style={[
+        styles.container,
+        {
+          marginVertical: marginVertical ? marginVertical : 0,
+          height: heigth ? heigth : '13%',
+        },
+      ]}
+    >
       <View>
         <Text
           style={{
@@ -165,7 +178,6 @@ export const BasicInput: FC<Props & TextInputProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    height: '13%',
     width: '100%',
     display: 'flex',
     justifyContent: 'center',

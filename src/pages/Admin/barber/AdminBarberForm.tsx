@@ -1,34 +1,35 @@
 import {
   Keyboard,
   StyleSheet,
-  View,
   Text,
   Alert,
-  ScrollView,
+  View,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { appTheme } from '../../theme';
+import { appTheme } from '../../../theme';
 import { useContext, useState } from 'react';
-import { AuthContext, IAuthData, ThemeContext } from '../../context';
-import { BasicInput } from '../../components/inputs';
-import { BasicButton } from '../../components/Buttons';
+import { AuthContext, IAuthData, ThemeContext } from '../../../context';
+import { BasicInput } from '../../../components/inputs';
+import { BasicButton } from '../../../components/Buttons';
 import { useNavigation } from '@react-navigation/native';
-import { RouteStackSelection, RootStack } from '../../router';
-import { signInUser, singUpUser } from '../../api';
+import { RouteStackSelection, RootStack } from '../../../router';
+import { singUpUser } from '../../../api';
 import {
   saveAccessToken,
   saveRefreshToken,
-} from '../../localStorage/localStorage';
+} from '../../../localStorage/localStorage';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Loader } from '../../components/loader/Loader';
+import { Loader } from '../../../components/loader/Loader';
 
 const inputs = {
+  name: '',
+  surname: '',
   email: '',
   password: '',
 };
 
-export const Login = () => {
+export const AdminBarnberForm = () => {
   const { setAuthData } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
@@ -57,6 +58,16 @@ export const Login = () => {
       valid = false;
     }
 
+    if (!formValues.name) {
+      handleErrorChange('El campo nombres no puede estár vacío', 'name');
+      valid = false;
+    }
+
+    if (!formValues.surname) {
+      handleErrorChange('El campo apellidos no puede estár vacío', 'surname');
+      valid = false;
+    }
+
     if (!formValues.password) {
       handleErrorChange('El campo contraseña no puede estár vacío', 'password');
       valid = false;
@@ -66,10 +77,10 @@ export const Login = () => {
   };
 
   const handleCancel = () => {
-    navigation.navigate('Auth');
+    navigation.navigate('AdminBarber');
   };
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     const isValidForm = validate();
 
     if (!isValidForm) {
@@ -78,7 +89,7 @@ export const Login = () => {
 
     setIsLoading(true);
 
-    const data = await signInUser(formValues);
+    const data = await singUpUser(formValues);
 
     if (!data) {
       setIsLoading(false);
@@ -100,6 +111,7 @@ export const Login = () => {
 
   return (
     <KeyboardAvoidingView
+      onTouchStart={Keyboard.dismiss}
       behavior={Platform.OS === 'ios' ? 'height' : 'padding'}
       style={[
         styles.container,
@@ -107,90 +119,102 @@ export const Login = () => {
       ]}
     >
       <SafeAreaView
-        onTouchStart={Keyboard.dismiss}
         style={[
           styles.container,
           styles.center,
           { backgroundColor: appTheme[theme].colorBackground },
         ]}
       >
-        <Loader isVisible={isLoading} />
         <View
           style={[
-            styles.center,
-            { width: '100%', height: '10%', marginTop: 50 },
-          ]}
-        >
-          <Text style={{ fontSize: 40, color: appTheme[theme].colorPrimary }}>
-            ¡Inicia Sessión!
-          </Text>
-          <Text
-            style={{
-              fontSize: 20,
-              color: appTheme[theme].colorSecondary,
-              marginTop: 5,
-            }}
-          >
-            Por favor añade la información necesaria
-          </Text>
-        </View>
-
-        <ScrollView
-          contentContainerStyle={[
-            styles.childCenter,
-            { width: '100%', height: '100%' },
-          ]}
-          style={[
             {
-              height: '80%',
-              width: '100%',
+              height: '100%',
+              width: '95%',
               backgroundColor: appTheme[theme].colorSurface,
               borderRadius: 40,
-              position: 'absolute',
-              bottom: 0,
               ...appTheme[theme].shadowOne,
             },
           ]}
         >
-          <View
-            style={[
-              { width: '100%', height: '50%', justifyContent: 'space-evenly' },
-            ]}
+          <Text
+            style={{
+              fontSize: 40,
+              color: appTheme[theme].colorPrimary,
+              textAlign: 'center',
+              marginVertical: 5,
+            }}
           >
-            <BasicInput
-              action={(value: string) => {
-                handleInputChange(value, 'email');
-              }}
-              value={formValues.email}
-              labelString="Email"
-              variation="email"
-              type="text"
-              iconName="mail-outline"
-              placeholder="Ejemplo: a@a.com"
-              error={errors.email}
-              onFocusFunction={() => {
-                handleErrorChange('', 'email');
-              }}
-              heigth={'25%'}
-            />
+            Registra un barbero
+          </Text>
+          <BasicInput
+            action={(value: string) => {
+              handleInputChange(value, 'name');
+            }}
+            value={formValues.name}
+            labelString="Nombres"
+            type="text"
+            iconName="person"
+            placeholder="Nombre"
+            error={errors.name}
+            onFocusFunction={() => {
+              handleErrorChange('', 'name');
+            }}
+            marginVertical={10}
+            heigth={'10%'}
+          />
 
-            <BasicInput
-              action={(value: string) => {
-                handleInputChange(value, 'password');
-              }}
-              value={formValues.password}
-              labelString="Contraseña"
-              variation="password"
-              type="text"
-              iconName="lock-outline"
-              placeholder="Agrega tu contraseña Aquí"
-              error={errors.password}
-              onFocusFunction={() => {
-                handleErrorChange('', 'password');
-              }}
-              heigth={'25%'}
-            />
-          </View>
+          <BasicInput
+            action={(value: string) => {
+              handleInputChange(value, 'surname');
+            }}
+            value={formValues.surname}
+            labelString="Apellidos"
+            type="text"
+            iconName="person-outline"
+            placeholder="Apellidos"
+            error={errors.surname}
+            onFocusFunction={() => {
+              handleErrorChange('', 'surname');
+            }}
+            marginVertical={10}
+            heigth={'10%'}
+          />
+
+          <BasicInput
+            action={(value: string) => {
+              handleInputChange(value, 'email');
+            }}
+            value={formValues.email}
+            labelString="Email"
+            variation="email"
+            type="text"
+            iconName="mail-outline"
+            placeholder="Ejemplo: a@a.com"
+            error={errors.email}
+            onFocusFunction={() => {
+              handleErrorChange('', 'email');
+            }}
+            marginVertical={10}
+            heigth={'10%'}
+          />
+
+          <BasicInput
+            action={(value: string) => {
+              handleInputChange(value, 'password');
+            }}
+            value={formValues.password}
+            labelString="Contraseña"
+            variation="password"
+            type="text"
+            iconName="lock-outline"
+            placeholder="Contraseña"
+            error={errors.password}
+            onFocusFunction={() => {
+              handleErrorChange('', 'password');
+            }}
+            marginVertical={10}
+            heigth={'10%'}
+          />
 
           <View
             style={{
@@ -198,10 +222,11 @@ export const Login = () => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-evenly',
+              marginTop: 50,
             }}
           >
             <BasicButton
-              action={() => handleLogin()}
+              action={() => console.log('TODO::')}
               bgColor={appTheme[theme].colorPrimary}
               height={60}
               width={150}
@@ -224,8 +249,9 @@ export const Login = () => {
               textSize={20}
             />
           </View>
-        </ScrollView>
+        </View>
       </SafeAreaView>
+      <Loader isVisible={isLoading} />
     </KeyboardAvoidingView>
   );
 };
@@ -235,7 +261,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   center: {
-    isplay: 'flex',
+    display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -243,7 +269,7 @@ const styles = StyleSheet.create({
   childCenter: {
     isplay: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-evenly',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
 });

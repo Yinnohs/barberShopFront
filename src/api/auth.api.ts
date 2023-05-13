@@ -1,7 +1,6 @@
 import { TSignUpPayload, TSingInPayload } from '../types';
 import axios from 'axios';
-
-const baseRoute = `http://192.168.1.13:5050/api/v1/`;
+import { baseRoute } from './constant';
 
 export const singUpUser = async (payload: TSignUpPayload) => {
   try {
