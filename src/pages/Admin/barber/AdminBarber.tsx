@@ -1,17 +1,29 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { appTheme } from '../../../theme';
-import React, { useContext, useState } from 'react';
-import { IBarber, ThemeContext } from '../../../context';
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext, IBarber, ThemeContext } from '../../../context';
 import { Layout } from '../../layout';
 import { BasicButton } from '../../../components/Buttons';
 import { useNavigation } from '@react-navigation/native';
 import { RouteStackSelection, RootStack } from '../../../router';
 import { BarberList } from '../../../components/barbers';
+import { getAllUsersBarbers } from '../../../api/user.api';
 
 export const AdminBarber = () => {
   const { theme } = useContext(ThemeContext);
-  const [barber, setBarber] = useState<IBarber[]>([] as IBarber[]);
+  const { authData } = useContext(AuthContext);
+  const [barbers, setBarbers] = useState<IBarber[]>([] as IBarber[]);
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
+
+  const fetchServices = async () => {
+    const fetchedServices = await getAllUsersBarbers(authData.token);
+    setBarbers(fetchedServices);
+  };
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
   return (
     <Layout>
       <View style={[styles.container]}>
@@ -41,7 +53,7 @@ export const AdminBarber = () => {
         </View>
         {/*TODO: create a list of current barbers in the app*/}
         <View style={[{ width: '80%', alignItems: 'center' }]}>
-          <BarberList barbers={barber!} />
+          <BarberList barbers={barbers!} />
         </View>
       </View>
     </Layout>

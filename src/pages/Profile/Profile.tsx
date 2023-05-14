@@ -1,3 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
+import { useContext, useEffect, useState } from 'react';
 import {
   Keyboard,
   StyleSheet,
@@ -6,37 +8,37 @@ import {
   View,
   KeyboardAvoidingView,
   Platform,
+  SafeAreaView,
 } from 'react-native';
-import { appTheme } from '../../../theme';
-import { useContext, useState } from 'react';
-import { AuthContext, IAuthData, ThemeContext } from '../../../context';
-import { BasicInput } from '../../../components/inputs';
-import { BasicButton } from '../../../components/Buttons';
-import { useNavigation } from '@react-navigation/native';
-import { RouteStackSelection, RootStack } from '../../../router';
-import { singUpUser } from '../../../api';
-import {
-  saveAccessToken,
-  saveRefreshToken,
-} from '../../../localStorage/localStorage';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Loader } from '../../../components/loader/Loader';
+import { BasicButton } from '../../components/Buttons';
+import { BasicInput } from '../../components/inputs';
+import { Loader } from '../../components/loader';
+import { AuthContext, ThemeContext, IAuthData } from '../../context';
+import { RouteStackSelection, RootStack } from '../../router';
+import { appTheme } from '../../theme';
+import { getuserInformation, updateUser } from '../../api/user.api';
+import Icon from '@expo/vector-icons/MaterialIcons';
 
 const inputs = {
   name: '',
   surname: '',
   email: '',
-  password: '',
 };
 
-export const AdminBarnberForm = () => {
-  const { setAuthData } = useContext(AuthContext);
+export const Profile = () => {
+  const { authData } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
   const [formValues, setFormValues] = useState(inputs);
 
   const [errors, setErrors] = useState(inputs);
   const [isLoading, setIsLoading] = useState(false);
+
+  const getUsetInformation = async () => {
+    const data = await getuserInformation(authData.token);
+    console.log({ data });
+    setFormValues(() => data);
+  };
 
   const handleInputChange = (value: string, input: keyof typeof inputs) => {
     setFormValues((prevState) => {
@@ -67,20 +69,14 @@ export const AdminBarnberForm = () => {
       handleErrorChange('El campo apellidos no puede estár vacío', 'surname');
       valid = false;
     }
-
-    if (!formValues.password) {
-      handleErrorChange('El campo contraseña no puede estár vacío', 'password');
-      valid = false;
-    }
-
     return valid;
   };
 
   const handleCancel = () => {
-    navigation.navigate('AdminBarber');
+    navigation.navigate('Home');
   };
 
-  const handleRegister = async () => {
+  const handleUpdate = async () => {
     const isValidForm = validate();
 
     if (!isValidForm) {
@@ -89,25 +85,19 @@ export const AdminBarnberForm = () => {
 
     setIsLoading(true);
 
-    const data = await singUpUser(formValues);
+    const data = await updateUser(formValues, authData.token);
 
     if (!data) {
       setIsLoading(false);
       return Alert.alert('something went wrong trying to registering');
     }
 
-    await saveAccessToken(data?.access_token);
-    await saveRefreshToken(data?.refresh_token);
-    const authData: IAuthData = {
-      isLogged: true,
-      role: data?.role,
-      rToken: data?.refresh_token,
-      token: data?.access_token,
-    };
-    setAuthData(authData);
     setIsLoading(false);
-    navigation.navigate('Home');
   };
+
+  useEffect(() => {
+    getUsetInformation();
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -128,24 +118,38 @@ export const AdminBarnberForm = () => {
         <View
           style={[
             {
-              height: '100%',
+              height: '80%',
               width: '95%',
               backgroundColor: appTheme[theme].colorSurface,
               borderRadius: 40,
               ...appTheme[theme].shadowOne,
+              marginTop: 100,
             },
+            styles.center,
           ]}
         >
+          <Icon
+            name="person"
+            style={[
+              {
+                color: appTheme[theme].colorPrimary,
+                fontSize: 50,
+                marginVertical: 10,
+              },
+              appTheme[theme].shadowOne,
+            ]}
+          />
           <Text
             style={{
               fontSize: 40,
               color: appTheme[theme].colorPrimary,
               textAlign: 'center',
-              marginVertical: 5,
+              marginVertical: 10,
             }}
           >
-            Registra un barbero
+            Actualiza tu perfil
           </Text>
+
           <BasicInput
             action={(value: string) => {
               handleInputChange(value, 'name');
@@ -198,24 +202,6 @@ export const AdminBarnberForm = () => {
             heigth={'10%'}
           />
 
-          <BasicInput
-            action={(value: string) => {
-              handleInputChange(value, 'password');
-            }}
-            value={formValues.password}
-            labelString="Contraseña"
-            variation="password"
-            type="text"
-            iconName="lock-outline"
-            placeholder="Contraseña"
-            error={errors.password}
-            onFocusFunction={() => {
-              handleErrorChange('', 'password');
-            }}
-            marginVertical={10}
-            heigth={'10%'}
-          />
-
           <View
             style={{
               width: '100%',
@@ -238,7 +224,7 @@ export const AdminBarnberForm = () => {
             />
 
             <BasicButton
-              action={() => console.log('TODO::')}
+              action={() => handleUpdate()}
               bgColor={appTheme[theme].colorPrimary}
               height={60}
               width={150}

@@ -201,18 +201,6 @@ export const Login = () => {
             }}
           >
             <BasicButton
-              action={() => handleLogin()}
-              bgColor={appTheme[theme].colorPrimary}
-              height={60}
-              width={150}
-              rounded={true}
-              textColor={appTheme[theme].colorSurface}
-              title="Enviar"
-              type="filled"
-              textSize={20}
-            />
-
-            <BasicButton
               action={() => handleCancel()}
               bgColor={appTheme[theme].colorSecondary}
               height={60}
@@ -221,6 +209,18 @@ export const Login = () => {
               textColor={appTheme[theme].colorPrimary}
               title="Cancelar"
               type="outline"
+              textSize={20}
+            />
+
+            <BasicButton
+              action={() => handleLogin()}
+              bgColor={appTheme[theme].colorPrimary}
+              height={60}
+              width={150}
+              rounded={true}
+              textColor={appTheme[theme].colorSurface}
+              title="Enviar"
+              type="filled"
               textSize={20}
             />
           </View>

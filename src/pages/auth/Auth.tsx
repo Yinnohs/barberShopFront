@@ -71,7 +71,7 @@ export const Auth = () => {
             action={() => navigation.navigate('Register')}
             bgColor={appTheme[theme].colorPrimary}
             height="30%"
-            width="40%"
+            width="50%"
             rounded={true}
             textColor={appTheme[theme].colorSurface}
             title="Registrate"
@@ -83,7 +83,7 @@ export const Auth = () => {
             action={() => navigation.navigate('Login')}
             bgColor={appTheme[theme].colorSecondary}
             height="30%"
-            width="40%"
+            width="50%"
             rounded={true}
             textColor={appTheme[theme].colorPrimary}
             title="Logueate"

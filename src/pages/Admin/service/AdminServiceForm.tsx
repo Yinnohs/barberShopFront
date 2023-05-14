@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { appTheme } from '../../../theme';
 import { useContext, useState } from 'react';
-import { AuthContext, IAuthData, ThemeContext } from '../../../context';
+import { AuthContext, ThemeContext } from '../../../context';
 import { BasicInput } from '../../../components/inputs';
 import { BasicButton } from '../../../components/Buttons';
 import { useNavigation } from '@react-navigation/native';
@@ -170,18 +170,6 @@ export const AdminServiceForm = () => {
             }}
           >
             <BasicButton
-              action={() => handleCreation()}
-              bgColor={appTheme[theme].colorPrimary}
-              height={60}
-              width={150}
-              rounded={true}
-              textColor={appTheme[theme].colorSurface}
-              title="Enviar"
-              type="filled"
-              textSize={20}
-            />
-
-            <BasicButton
               action={() => handleCancel()}
               bgColor={appTheme[theme].colorSecondary}
               height={60}
@@ -190,6 +178,18 @@ export const AdminServiceForm = () => {
               textColor={appTheme[theme].colorPrimary}
               title="Cancelar"
               type="outline"
+              textSize={20}
+            />
+
+            <BasicButton
+              action={() => handleCreation()}
+              bgColor={appTheme[theme].colorPrimary}
+              height={60}
+              width={150}
+              rounded={true}
+              textColor={appTheme[theme].colorSurface}
+              title="Enviar"
+              type="filled"
               textSize={20}
             />
           </View>

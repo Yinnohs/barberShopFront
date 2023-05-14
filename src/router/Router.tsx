@@ -15,6 +15,7 @@ import {
   AdminService,
   AdminServiceForm,
 } from '../pages/Admin';
+import { Profile } from '../pages/Profile/Profile';
 
 const Stack = createNativeStackNavigator<RootStack>();
 
@@ -45,6 +46,12 @@ const Router = () => {
         <Stack.Screen
           name="Home"
           component={Home}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
           options={{ headerShown: false }}
         />
         <Stack.Screen name="AdminHome" component={Admin} options={headerBase} />
