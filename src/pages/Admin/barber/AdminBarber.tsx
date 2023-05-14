@@ -1,14 +1,16 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { appTheme } from '../../../theme';
-import { useContext } from 'react';
-import { ThemeContext } from '../../../context';
+import React, { useContext, useState } from 'react';
+import { IBarber, ThemeContext } from '../../../context';
 import { Layout } from '../../layout';
 import { BasicButton } from '../../../components/Buttons';
 import { useNavigation } from '@react-navigation/native';
 import { RouteStackSelection, RootStack } from '../../../router';
+import { BarberList } from '../../../components/barbers';
 
 export const AdminBarber = () => {
   const { theme } = useContext(ThemeContext);
+  const [barber, setBarber] = useState<IBarber[]>([] as IBarber[]);
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
   return (
     <Layout>
@@ -38,7 +40,9 @@ export const AdminBarber = () => {
           />
         </View>
         {/*TODO: create a list of current barbers in the app*/}
-        <View></View>
+        <View style={[{ width: '80%', alignItems: 'center' }]}>
+          <BarberList barbers={barber!} />
+        </View>
       </View>
     </Layout>
   );

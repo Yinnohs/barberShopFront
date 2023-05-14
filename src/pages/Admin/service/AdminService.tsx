@@ -1,15 +1,33 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { appTheme } from '../../../theme';
-import { useContext } from 'react';
-import { ThemeContext } from '../../../context';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext, ThemeContext } from '../../../context';
 import { Layout } from '../../layout';
 import { BasicButton } from '../../../components/Buttons';
 import { useNavigation } from '@react-navigation/native';
 import { RouteStackSelection, RootStack } from '../../../router';
+import { ServiceList } from '../../../components/services';
+import { ServicesContext } from '../../../context/services/ServicesContext';
+import { Loader } from '../../../components/loader';
+import { getAllServices } from '../../../api/service';
+import { IService } from '../../../context/services/ServicesContext';
 
 export const AdminService = () => {
   const { theme } = useContext(ThemeContext);
+  const { services, setServices } = useContext(ServicesContext);
+  const [cServices, setCServices] = useState<IService[]>();
+  const { authData } = useContext(AuthContext);
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
+
+  const fetchServices = async () => {
+    const fetchedServices = await getAllServices(authData.token);
+    setCServices(fetchedServices);
+  };
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
   return (
     <Layout>
       <View style={[styles.container]}>
@@ -38,7 +56,9 @@ export const AdminService = () => {
           />
         </View>
         {/*TODO: create a list of current barbers in the app*/}
-        <View></View>
+        <View style={[{ width: '80%', alignItems: 'center' }]}>
+          <ServiceList services={cServices!} />
+        </View>
       </View>
     </Layout>
   );
