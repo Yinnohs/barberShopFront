@@ -5,6 +5,8 @@ import {
   Text,
   Alert,
   ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { appTheme } from '../../theme';
 import { useContext, useState } from 'react';
@@ -110,145 +112,155 @@ export const Register = () => {
   };
 
   return (
-    <SafeAreaView
-      onTouchStart={Keyboard.dismiss}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'height' : 'padding'}
       style={[
         styles.container,
-        styles.center,
         { backgroundColor: appTheme[theme].colorBackground },
       ]}
     >
-      <Loader isVisible={isLoading} />
-      <View
-        style={[styles.center, { width: '100%', height: '10%', marginTop: 50 }]}
-      >
-        <Text style={{ fontSize: 40, color: appTheme[theme].colorPrimary }}>
-          Registrate
-        </Text>
-        <Text
-          style={{
-            fontSize: 20,
-            color: appTheme[theme].colorSecondary,
-            marginTop: 5,
-          }}
-        >
-          Por favor añade la información necesaria
-        </Text>
-      </View>
-
-      <ScrollView
-        contentContainerStyle={[
-          styles.childCenter,
-          { width: '100%', height: '100%' },
-        ]}
+      <SafeAreaView
+        onTouchStart={Keyboard.dismiss}
         style={[
-          {
-            height: '80%',
-            width: '100%',
-            backgroundColor: appTheme[theme].colorSurface,
-            borderRadius: 40,
-            position: 'absolute',
-            bottom: 0,
-            ...appTheme[theme].shadowOne,
-          },
+          styles.container,
+          styles.center,
+          { backgroundColor: appTheme[theme].colorBackground },
         ]}
       >
-        <BasicInput
-          action={(value: string) => {
-            handleInputChange(value, 'name');
-          }}
-          value={formValues.name}
-          labelString="Nombres"
-          type="text"
-          iconName="person"
-          placeholder="Agrega tu nombre Aquí"
-          error={errors.name}
-          onFocusFunction={() => {
-            handleErrorChange('', 'name');
-          }}
-        />
-
-        <BasicInput
-          action={(value: string) => {
-            handleInputChange(value, 'surname');
-          }}
-          value={formValues.surname}
-          labelString="Apellidos"
-          type="text"
-          iconName="person-outline"
-          placeholder="Agrega tu apellido Aquí"
-          error={errors.surname}
-          onFocusFunction={() => {
-            handleErrorChange('', 'surname');
-          }}
-        />
-
-        <BasicInput
-          action={(value: string) => {
-            handleInputChange(value, 'email');
-          }}
-          value={formValues.email}
-          labelString="Email"
-          variation="email"
-          type="text"
-          iconName="mail-outline"
-          placeholder="Ejemplo: a@a.com"
-          error={errors.email}
-          onFocusFunction={() => {
-            handleErrorChange('', 'email');
-          }}
-        />
-
-        <BasicInput
-          action={(value: string) => {
-            handleInputChange(value, 'password');
-          }}
-          value={formValues.password}
-          labelString="Contraseña"
-          variation="password"
-          type="text"
-          iconName="lock-outline"
-          placeholder="Agrega tu contraseña Aquí"
-          error={errors.password}
-          onFocusFunction={() => {
-            handleErrorChange('', 'password');
-          }}
-        />
-
+        <Loader isVisible={isLoading} />
         <View
-          style={{
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-          }}
+          style={[
+            styles.center,
+            { width: '100%', height: '10%', marginTop: 50 },
+          ]}
         >
-          <BasicButton
-            action={() => handleRegister()}
-            bgColor={appTheme[theme].colorPrimary}
-            height={60}
-            width={150}
-            rounded={true}
-            textColor={appTheme[theme].colorSurface}
-            title="Enviar"
-            type="filled"
-            textSize={20}
+          <Text style={{ fontSize: 40, color: appTheme[theme].colorPrimary }}>
+            Registrate
+          </Text>
+          <Text
+            style={{
+              fontSize: 20,
+              color: appTheme[theme].colorSecondary,
+              marginTop: 5,
+            }}
+          >
+            Por favor añade la información necesaria
+          </Text>
+        </View>
+
+        <ScrollView
+          contentContainerStyle={[
+            styles.childCenter,
+            { width: '100%', height: '100%' },
+          ]}
+          style={[
+            {
+              height: '80%',
+              width: '100%',
+              backgroundColor: appTheme[theme].colorSurface,
+              position: 'absolute',
+              bottom: 0,
+              ...appTheme[theme].shadowOne,
+            },
+          ]}
+        >
+          <BasicInput
+            action={(value: string) => {
+              handleInputChange(value, 'name');
+            }}
+            value={formValues.name}
+            labelString="Nombres"
+            type="text"
+            iconName="person"
+            placeholder="Agrega tu nombre Aquí"
+            error={errors.name}
+            onFocusFunction={() => {
+              handleErrorChange('', 'name');
+            }}
           />
 
-          <BasicButton
-            action={() => handleCancel()}
-            bgColor={appTheme[theme].colorSecondary}
-            height={60}
-            width={150}
-            rounded={true}
-            textColor={appTheme[theme].colorPrimary}
-            title="Cancelar"
-            type="outline"
-            textSize={20}
+          <BasicInput
+            action={(value: string) => {
+              handleInputChange(value, 'surname');
+            }}
+            value={formValues.surname}
+            labelString="Apellidos"
+            type="text"
+            iconName="person-outline"
+            placeholder="Agrega tu apellido Aquí"
+            error={errors.surname}
+            onFocusFunction={() => {
+              handleErrorChange('', 'surname');
+            }}
           />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+
+          <BasicInput
+            action={(value: string) => {
+              handleInputChange(value, 'email');
+            }}
+            value={formValues.email}
+            labelString="Email"
+            variation="email"
+            type="text"
+            iconName="mail-outline"
+            placeholder="Ejemplo: a@a.com"
+            error={errors.email}
+            onFocusFunction={() => {
+              handleErrorChange('', 'email');
+            }}
+          />
+
+          <BasicInput
+            action={(value: string) => {
+              handleInputChange(value, 'password');
+            }}
+            value={formValues.password}
+            labelString="Contraseña"
+            variation="password"
+            type="text"
+            iconName="lock-outline"
+            placeholder="Agrega tu contraseña Aquí"
+            error={errors.password}
+            onFocusFunction={() => {
+              handleErrorChange('', 'password');
+            }}
+          />
+
+          <View
+            style={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+            }}
+          >
+            <BasicButton
+              action={() => handleRegister()}
+              bgColor={appTheme[theme].colorPrimary}
+              height={60}
+              width={150}
+              rounded={true}
+              textColor={appTheme[theme].colorSurface}
+              title="Enviar"
+              type="filled"
+              textSize={20}
+            />
+
+            <BasicButton
+              action={() => handleCancel()}
+              bgColor={appTheme[theme].colorSecondary}
+              height={60}
+              width={150}
+              rounded={true}
+              textColor={appTheme[theme].colorPrimary}
+              title="Cancelar"
+              type="outline"
+              textSize={20}
+            />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 

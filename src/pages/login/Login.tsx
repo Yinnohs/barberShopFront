@@ -145,7 +145,6 @@ export const Login = () => {
               height: '80%',
               width: '100%',
               backgroundColor: appTheme[theme].colorSurface,
-              borderRadius: 40,
               position: 'absolute',
               bottom: 0,
               ...appTheme[theme].shadowOne,

@@ -121,7 +121,6 @@ export const Profile = () => {
               height: '80%',
               width: '95%',
               backgroundColor: appTheme[theme].colorSurface,
-              borderRadius: 40,
               ...appTheme[theme].shadowOne,
               marginTop: 100,
             },

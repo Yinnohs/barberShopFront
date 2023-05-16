@@ -7,7 +7,7 @@ import { BasicButton } from '../../components/Buttons';
 import { appTheme } from '../../theme';
 
 export const Auth = () => {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
 
   useEffect(() => {});

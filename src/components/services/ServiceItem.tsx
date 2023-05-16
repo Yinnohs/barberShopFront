@@ -26,8 +26,16 @@ export const ServiceItem: FC<IService> = ({ id, description, price }) => {
           },
         ]}
       >
-        <Text style={styles.textSize}>{description}</Text>
-        <Text style={styles.textSize}>{price} €</Text>
+        <Text
+          style={[styles.textSize, { color: appTheme[theme].colorPrimary }]}
+        >
+          {description}
+        </Text>
+        <Text
+          style={[styles.textSize, { color: appTheme[theme].colorPrimary }]}
+        >
+          {price} €
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[

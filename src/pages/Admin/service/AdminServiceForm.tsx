@@ -111,7 +111,6 @@ export const AdminServiceForm = () => {
               height: '100%',
               width: '95%',
               backgroundColor: appTheme[theme].colorSurface,
-              borderRadius: 40,
               ...appTheme[theme].shadowOne,
             },
           ]}

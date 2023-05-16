@@ -55,7 +55,7 @@ export const appTheme = {
       },
       shadowOpacity: 0.17,
       shadowRadius: 3.05,
-      elevation: 4,
+      elevation: 0,
     },
 
     shadowTwo: {
@@ -66,7 +66,7 @@ export const appTheme = {
       },
       shadowOpacity: 0.2,
       shadowRadius: 5.62,
-      elevation: 7,
+      elevation: 0,
     },
 
     shadowThree: {
@@ -77,7 +77,7 @@ export const appTheme = {
       },
       shadowOpacity: 0.22,
       shadowRadius: 9.22,
-      elevation: 12,
+      elevation: 0,
     },
   },
 

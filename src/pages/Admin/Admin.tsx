@@ -30,7 +30,6 @@ export const Admin = () => {
               marginBottom: 30,
               justifyContent: 'center',
               backgroundColor: appTheme[theme].colorSurface,
-              borderRadius: 20,
             },
             appTheme[theme].shadowOne,
           ]}

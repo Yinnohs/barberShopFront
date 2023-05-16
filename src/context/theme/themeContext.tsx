@@ -1,6 +1,6 @@
 // context/todoContext.tsx
 import { FC, createContext, useState } from 'react';
-import { ColorSchemeName, useColorScheme } from 'react-native';
+import { Appearance, ColorSchemeName, useColorScheme } from 'react-native';
 
 export interface IThemeContext {
   theme: 'light' | 'dark';
@@ -13,14 +13,16 @@ export const ThemeContext = createContext<IThemeContext>({
 });
 
 export const ThemeProvider: FC<any> = ({ children }) => {
+  const themeValue = useColorScheme();
+  console.log({ themeValue });
+  const initialValue =
+    themeValue === null || themeValue === undefined ? 'dark' : themeValue;
+
+  console.log(themeValue);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
-  const handleThemeChange = () => {
-    theme === 'light' ? setTheme('dark') : setTheme('light');
-  };
-
   return (
-    <ThemeContext.Provider value={{ theme, setTheme: handleThemeChange }}>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );
