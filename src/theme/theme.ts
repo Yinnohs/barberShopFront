@@ -42,7 +42,7 @@ export const appTheme = {
 
   dark: {
     colorPrimary: '#F4EEE0',
-    colorSecondary: '#6D5D6E',
+    colorSecondary: '#AFAFAE',
     colorBackground: '#393646',
     colorSurface: '#4F4557',
     colorInput: '#5F4567',

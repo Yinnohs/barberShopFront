@@ -63,7 +63,7 @@ export const Auth = () => {
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-evenly',
-            width: '80%',
+            width: '100%',
             height: '50%',
           }}
         >
@@ -71,7 +71,7 @@ export const Auth = () => {
             action={() => navigation.navigate('Register')}
             bgColor={appTheme[theme].colorPrimary}
             height="30%"
-            width="50%"
+            width="40%"
             rounded={true}
             textColor={appTheme[theme].colorSurface}
             title="Registrate"
@@ -83,7 +83,7 @@ export const Auth = () => {
             action={() => navigation.navigate('Login')}
             bgColor={appTheme[theme].colorSecondary}
             height="30%"
-            width="50%"
+            width="40%"
             rounded={true}
             textColor={appTheme[theme].colorPrimary}
             title="Logueate"

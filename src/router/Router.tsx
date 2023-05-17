@@ -16,68 +16,63 @@ import {
   AdminServiceForm,
 } from '../pages/Admin';
 import { Profile } from '../pages/Profile/Profile';
+import { Header } from '../components/header';
 
 const Stack = createNativeStackNavigator<RootStack>();
 
 const Router = () => {
-  const { theme } = useContext(ThemeContext);
-
-  const headerBase = {
-    headerBackTitleVisible: false,
-    title: '',
-    headerTintColor: appTheme[theme].colorPrimary,
-    headerStyle: { backgroundColor: appTheme[theme].colorBackground },
+  const headerOptions = {
+    header: () => <Header />,
+  };
+  const noHeaderOptions = {
+    headerShown: false,
   };
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          name="Auth"
-          component={Auth}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="Login" component={Login} options={headerBase} />
+        <Stack.Screen name="Auth" component={Auth} options={noHeaderOptions} />
+        <Stack.Screen name="Login" component={Login} options={headerOptions} />
         <Stack.Screen
           name="Register"
           component={Register}
-          options={headerBase}
+          options={headerOptions}
         />
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{ headerShown: false }}
-        />
+        <Stack.Screen name="Home" component={Home} options={noHeaderOptions} />
 
         <Stack.Screen
           name="Profile"
           component={Profile}
-          options={{ headerShown: false }}
+          options={headerOptions}
         />
-        <Stack.Screen name="AdminHome" component={Admin} options={headerBase} />
+        <Stack.Screen
+          name="AdminHome"
+          component={Admin}
+          options={headerOptions}
+        />
 
         <Stack.Screen
           name="AdminBarber"
           component={AdminBarber}
-          options={headerBase}
+          options={headerOptions}
         />
 
         <Stack.Screen
           name="AdminBarberForm"
           component={AdminBarnberForm}
-          options={headerBase}
+          options={headerOptions}
         />
 
         <Stack.Screen
           name="AdminServices"
           component={AdminService}
-          options={headerBase}
+          options={headerOptions}
         />
 
         <Stack.Screen
           name="AdminServiceForm"
           component={AdminServiceForm}
-          options={headerBase}
+          options={headerOptions}
         />
       </Stack.Navigator>
     </NavigationContainer>

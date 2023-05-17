@@ -18,6 +18,7 @@ import { RouteStackSelection, RootStack } from '../../router';
 import { appTheme } from '../../theme';
 import { getuserInformation, updateUser } from '../../api/user.api';
 import Icon from '@expo/vector-icons/MaterialIcons';
+import { Layout } from '../layout';
 
 const inputs = {
   name: '',
@@ -100,144 +101,146 @@ export const Profile = () => {
   }, []);
 
   return (
-    <KeyboardAvoidingView
-      onTouchStart={Keyboard.dismiss}
-      behavior={Platform.OS === 'ios' ? 'height' : 'padding'}
-      style={[
-        styles.container,
-        { backgroundColor: appTheme[theme].colorBackground },
-      ]}
-    >
-      <SafeAreaView
+    <Layout>
+      <KeyboardAvoidingView
+        onTouchStart={Keyboard.dismiss}
+        behavior={Platform.OS === 'ios' ? 'height' : 'padding'}
         style={[
           styles.container,
-          styles.center,
           { backgroundColor: appTheme[theme].colorBackground },
         ]}
       >
-        <View
+        <SafeAreaView
           style={[
-            {
-              height: '80%',
-              width: '95%',
-              backgroundColor: appTheme[theme].colorSurface,
-              ...appTheme[theme].shadowOne,
-              marginTop: 100,
-            },
+            styles.container,
             styles.center,
+            { backgroundColor: appTheme[theme].colorBackground },
           ]}
         >
-          <Icon
-            name="person"
+          <View
             style={[
               {
-                color: appTheme[theme].colorPrimary,
-                fontSize: 50,
-                marginVertical: 10,
+                height: '80%',
+                width: '95%',
+                backgroundColor: appTheme[theme].colorSurface,
+                ...appTheme[theme].shadowOne,
+                marginTop: 100,
               },
-              appTheme[theme].shadowOne,
+              styles.center,
             ]}
-          />
-          <Text
-            style={{
-              fontSize: 40,
-              color: appTheme[theme].colorPrimary,
-              textAlign: 'center',
-              marginVertical: 10,
-            }}
           >
-            Actualiza tu perfil
-          </Text>
+            <Icon
+              name="person"
+              style={[
+                {
+                  color: appTheme[theme].colorPrimary,
+                  fontSize: 50,
+                  marginVertical: 10,
+                },
+                appTheme[theme].shadowOne,
+              ]}
+            />
+            <Text
+              style={{
+                fontSize: 40,
+                color: appTheme[theme].colorPrimary,
+                textAlign: 'center',
+                marginVertical: 10,
+              }}
+            >
+              Actualiza tu perfil
+            </Text>
 
-          <BasicInput
-            action={(value: string) => {
-              handleInputChange(value, 'name');
-            }}
-            value={formValues.name}
-            labelString="Nombres"
-            type="text"
-            iconName="person"
-            placeholder="Nombre"
-            error={errors.name}
-            onFocusFunction={() => {
-              handleErrorChange('', 'name');
-            }}
-            marginVertical={10}
-            heigth={'10%'}
-          />
-
-          <BasicInput
-            action={(value: string) => {
-              handleInputChange(value, 'surname');
-            }}
-            value={formValues.surname}
-            labelString="Apellidos"
-            type="text"
-            iconName="person-outline"
-            placeholder="Apellidos"
-            error={errors.surname}
-            onFocusFunction={() => {
-              handleErrorChange('', 'surname');
-            }}
-            marginVertical={10}
-            heigth={'10%'}
-          />
-
-          <BasicInput
-            action={(value: string) => {
-              handleInputChange(value, 'email');
-            }}
-            value={formValues.email}
-            labelString="Email"
-            variation="email"
-            type="text"
-            iconName="mail-outline"
-            placeholder="Ejemplo: a@a.com"
-            error={errors.email}
-            onFocusFunction={() => {
-              handleErrorChange('', 'email');
-            }}
-            marginVertical={10}
-            heigth={'10%'}
-          />
-
-          <View
-            style={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-              marginTop: 50,
-            }}
-          >
-            <BasicButton
-              action={() => handleCancel()}
-              bgColor={appTheme[theme].colorSecondary}
-              height={60}
-              width={150}
-              rounded={true}
-              textColor={appTheme[theme].colorPrimary}
-              title="Cancelar"
-              type="outline"
-              textSize={20}
+            <BasicInput
+              action={(value: string) => {
+                handleInputChange(value, 'name');
+              }}
+              value={formValues.name}
+              labelString="Nombres"
+              type="text"
+              iconName="person"
+              placeholder="Nombre"
+              error={errors.name}
+              onFocusFunction={() => {
+                handleErrorChange('', 'name');
+              }}
+              marginVertical={10}
+              heigth={'10%'}
             />
 
-            <BasicButton
-              action={() => handleUpdate()}
-              bgColor={appTheme[theme].colorPrimary}
-              height={60}
-              width={150}
-              rounded={true}
-              textColor={appTheme[theme].colorSurface}
-              title="Enviar"
-              type="filled"
-              textSize={20}
+            <BasicInput
+              action={(value: string) => {
+                handleInputChange(value, 'surname');
+              }}
+              value={formValues.surname}
+              labelString="Apellidos"
+              type="text"
+              iconName="person-outline"
+              placeholder="Apellidos"
+              error={errors.surname}
+              onFocusFunction={() => {
+                handleErrorChange('', 'surname');
+              }}
+              marginVertical={10}
+              heigth={'10%'}
             />
+
+            <BasicInput
+              action={(value: string) => {
+                handleInputChange(value, 'email');
+              }}
+              value={formValues.email}
+              labelString="Email"
+              variation="email"
+              type="text"
+              iconName="mail-outline"
+              placeholder="Ejemplo: a@a.com"
+              error={errors.email}
+              onFocusFunction={() => {
+                handleErrorChange('', 'email');
+              }}
+              marginVertical={10}
+              heigth={'10%'}
+            />
+
+            <View
+              style={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                marginTop: 50,
+              }}
+            >
+              <BasicButton
+                action={() => handleCancel()}
+                bgColor={appTheme[theme].colorSecondary}
+                height={60}
+                width={150}
+                rounded={true}
+                textColor={appTheme[theme].colorPrimary}
+                title="Cancelar"
+                type="outline"
+                textSize={20}
+              />
+
+              <BasicButton
+                action={() => handleUpdate()}
+                bgColor={appTheme[theme].colorPrimary}
+                height={60}
+                width={150}
+                rounded={true}
+                textColor={appTheme[theme].colorSurface}
+                title="Enviar"
+                type="filled"
+                textSize={20}
+              />
+            </View>
           </View>
-        </View>
-      </SafeAreaView>
-      <Loader isVisible={isLoading} />
-    </KeyboardAvoidingView>
+        </SafeAreaView>
+        <Loader isVisible={isLoading} />
+      </KeyboardAvoidingView>
+    </Layout>
   );
 };
 

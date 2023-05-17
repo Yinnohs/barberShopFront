@@ -4,6 +4,7 @@ import { NavBar } from '../../components/nav';
 import { ThemeContext } from '../../context';
 import { appTheme } from '../../theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header } from '../../components/header';
 
 interface Props {
   children: ReactNode;
@@ -30,5 +31,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
+    justifyContent: 'center',
   },
 });
