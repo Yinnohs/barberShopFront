@@ -7,21 +7,29 @@ import { BasicButton } from '../../../components/Buttons';
 import { useNavigation } from '@react-navigation/native';
 import { RouteStackSelection, RootStack } from '../../../router';
 import { ServiceList } from '../../../components/services';
-import { ServicesContext } from '../../../context/services/ServicesContext';
-import { Loader } from '../../../components/loader';
-import { getAllServices } from '../../../api/service';
+import { getAllServices, hardDeleteService } from '../../../api/service';
 import { IService } from '../../../context/services/ServicesContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { DeleteModal } from '../../../components/modals';
 
 export const AdminService = () => {
   const { theme } = useContext(ThemeContext);
-  const { services, setServices } = useContext(ServicesContext);
   const [cServices, setCServices] = useState<IService[]>();
   const { authData } = useContext(AuthContext);
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
+  const [isOpen, setIsOpen] = useState(false);
+  const [idToDelete, setIdToDelete] = useState(0);
 
   const fetchServices = async () => {
     const fetchedServices = await getAllServices(authData.token);
     setCServices(fetchedServices);
+  };
+
+  const deleteFunction = async () => {
+    await hardDeleteService(idToDelete, authData.token);
+    await fetchServices();
+    setIdToDelete(0);
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -30,7 +38,7 @@ export const AdminService = () => {
 
   return (
     <Layout>
-      <View style={[styles.container]}>
+      <SafeAreaView style={[styles.container]}>
         <View
           style={[styles.childContainer, { justifyContent: 'space-evenly' }]}
         >
@@ -57,9 +65,19 @@ export const AdminService = () => {
         </View>
         {/*TODO: create a list of current barbers in the app*/}
         <View style={[{ width: '80%', alignItems: 'center' }]}>
-          <ServiceList services={cServices!} />
+          <ServiceList
+            services={cServices!}
+            openCloseModal={setIsOpen}
+            setIdToDelete={setIdToDelete}
+          />
         </View>
-      </View>
+        <DeleteModal
+          deleteAction={deleteFunction}
+          isOpen={isOpen}
+          deleteText={`¿ Estás seguro de borrar este servicio ?`}
+          setIsOpen={setIsOpen}
+        />
+      </SafeAreaView>
     </Layout>
   );
 };

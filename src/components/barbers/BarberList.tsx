@@ -5,10 +5,20 @@ import { BarberItem } from './BarberItem';
 
 interface IBarberList {
   barbers: IBarber[];
+  openCloseModal: Function;
+  setIdToDelete: Function;
 }
 
-export const BarberList: FC<IBarberList> = ({ barbers }) => {
+export const BarberList: FC<IBarberList> = ({
+  barbers,
+  openCloseModal,
+  setIdToDelete,
+}) => {
   const { theme } = useContext(ThemeContext);
+  const openFunction = async (id: number) => {
+    openCloseModal(true);
+    setIdToDelete(id);
+  };
 
   return (
     <FlatList
@@ -21,6 +31,7 @@ export const BarberList: FC<IBarberList> = ({ barbers }) => {
           name={item.name}
           surname={item.surname}
           email={item.email}
+          openModalFunction={() => openFunction(item.id)}
         />
       )}
       bounces={false}

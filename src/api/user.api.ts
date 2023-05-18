@@ -30,7 +30,7 @@ export const getuserInformation = async (token: string) => {
 
 export const getAllUsersBarbers = async (token: string) => {
   try {
-    const { data } = await baseApi.get('all', {
+    const { data } = await baseApi.get('barbers', {
       headers: { Authorization: `Bearer ${token}` },
     });
     return data;
@@ -40,6 +40,21 @@ export const getAllUsersBarbers = async (token: string) => {
 };
 
 export const updateUser = async (payload: TUpdateUser, token: string) => {
+  try {
+    const { data } = await baseApi.put('information/update', payload, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const delegateToClient = async (id: number, token: string) => {
+  const payload = {
+    id,
+    role: 'CLIENT',
+  };
   try {
     const { data } = await baseApi.put('information/update', payload, {
       headers: { Authorization: `Bearer ${token}` },

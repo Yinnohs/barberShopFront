@@ -5,7 +5,16 @@ import { ThemeContext } from '../../context';
 import { appTheme } from '../../theme';
 import Icon from '@expo/vector-icons/MaterialIcons';
 
-export const ServiceItem: FC<IService> = ({ id, description, price }) => {
+interface IItem {
+  openModalFunction: Function;
+}
+
+export const ServiceItem: FC<IService & IItem> = ({
+  id,
+  description,
+  price,
+  openModalFunction,
+}) => {
   const { theme } = useContext(ThemeContext);
   return (
     <View
@@ -38,6 +47,7 @@ export const ServiceItem: FC<IService> = ({ id, description, price }) => {
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
+        onPress={() => openModalFunction(id)}
         style={[
           {
             alignItems: 'center',
@@ -63,7 +73,7 @@ export const ServiceItem: FC<IService> = ({ id, description, price }) => {
 const styles = StyleSheet.create({
   item: {
     width: '100%',
-    height: 100,
+    height: 80,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',

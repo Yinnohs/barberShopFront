@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { appTheme } from '../../../theme';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext, IBarber, ThemeContext } from '../../../context';
@@ -7,26 +7,36 @@ import { BasicButton } from '../../../components/Buttons';
 import { useNavigation } from '@react-navigation/native';
 import { RouteStackSelection, RootStack } from '../../../router';
 import { BarberList } from '../../../components/barbers';
-import { getAllUsersBarbers } from '../../../api/user.api';
+import { delegateToClient, getAllUsersBarbers } from '../../../api/user.api';
+import { DeleteModal } from '../../../components/modals';
 
 export const AdminBarber = () => {
   const { theme } = useContext(ThemeContext);
   const { authData } = useContext(AuthContext);
   const [barbers, setBarbers] = useState<IBarber[]>([] as IBarber[]);
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
+  const [isOpen, setIsOpen] = useState(false);
+  const [idToDelete, setIdToDelete] = useState(0);
 
-  const fetchServices = async () => {
-    const fetchedServices = await getAllUsersBarbers(authData.token);
-    setBarbers(fetchedServices);
+  const fetchBarbers = async () => {
+    const fetchedBarbers = await getAllUsersBarbers(authData.token);
+    setBarbers(fetchedBarbers);
+  };
+
+  const deleteFunction = async () => {
+    await delegateToClient(idToDelete, authData.token);
+    await fetchBarbers();
+    setIdToDelete(0);
+    setIsOpen(false);
   };
 
   useEffect(() => {
-    fetchServices();
+    fetchBarbers();
   }, []);
 
   return (
     <Layout>
-      <View style={[styles.container]}>
+      <SafeAreaView style={[styles.container]}>
         <View
           style={[styles.childContainer, { justifyContent: 'space-evenly' }]}
         >
@@ -51,11 +61,20 @@ export const AdminBarber = () => {
             width={'70%'}
           />
         </View>
-        {/*TODO: create a list of current barbers in the app*/}
         <View style={[{ width: '80%', alignItems: 'center' }]}>
-          <BarberList barbers={barbers!} />
+          <BarberList
+            barbers={barbers!}
+            openCloseModal={setIsOpen}
+            setIdToDelete={setIdToDelete}
+          />
         </View>
-      </View>
+        <DeleteModal
+          deleteAction={deleteFunction}
+          isOpen={isOpen}
+          deleteText={`¿Estás seguro de convertir este barbero a cliente?`}
+          setIsOpen={setIsOpen}
+        />
+      </SafeAreaView>
     </Layout>
   );
 };

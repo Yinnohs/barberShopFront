@@ -4,7 +4,11 @@ import { IBarber, ThemeContext } from '../../context';
 import { appTheme } from '../../theme';
 import Icon from '@expo/vector-icons/MaterialIcons';
 
-export const BarberItem: FC<IBarber> = ({ id, name, surname }) => {
+interface IItem {
+  openModalFunction: Function;
+}
+
+export const BarberItem: FC<IBarber & IItem> = ({ id, name, surname }) => {
   const { theme } = useContext(ThemeContext);
   return (
     <View
@@ -15,6 +19,7 @@ export const BarberItem: FC<IBarber> = ({ id, name, surname }) => {
       ]}
     >
       <TouchableOpacity
+        onPress={() => {}}
         style={[
           {
             width: '75%',
@@ -29,6 +34,7 @@ export const BarberItem: FC<IBarber> = ({ id, name, surname }) => {
         <Text style={styles.textSize}>{surname} €</Text>
       </TouchableOpacity>
       <TouchableOpacity
+        onPress={() => {}}
         style={[
           {
             alignItems: 'center',

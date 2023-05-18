@@ -1,27 +1,33 @@
-import { FC, useContext, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { IService } from '../../context/services/ServicesContext';
-import { ThemeContext } from '../../context';
-import { View, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import { ServiceItem } from './ServiceItem';
 
 interface IServiceList {
   services: IService[];
+  openCloseModal: Function;
+  setIdToDelete: Function;
 }
 
-export const ServiceList: FC<IServiceList> = ({ services }) => {
-  const { theme } = useContext(ThemeContext);
+export const ServiceList: FC<IServiceList> = ({
+  services,
+  openCloseModal,
+  setIdToDelete,
+}) => {
+  const openFunction = async (id: number) => {
+    openCloseModal(true);
+    setIdToDelete(id);
+  };
 
-  useEffect(() => {
-    console.log([services]);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <FlatList
-      initialNumToRender={10}
       data={services}
-      keyExtractor={({ id, price, description }) => `service-${id}`}
+      keyExtractor={({ id }) => `service-${id}`}
       renderItem={({ item }) => (
         <ServiceItem
+          openModalFunction={() => openFunction(item.id)}
           id={item.id}
           description={item.description}
           price={item.price}
@@ -29,7 +35,7 @@ export const ServiceList: FC<IServiceList> = ({ services }) => {
       )}
       bounces={false}
       collapsable={true}
-      centerContent
+      progressViewOffset={20}
     />
   );
 };

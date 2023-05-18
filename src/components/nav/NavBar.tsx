@@ -20,7 +20,7 @@ export const NavBar = () => {
         page="Home"
         iconColor={appTheme[theme].colorPrimary}
       />
-      {authData.role !== 'ADMIN' ? (
+      {authData.role === 'ADMIN' ? (
         <NavButton
           iconName="person"
           page="AdminHome"
