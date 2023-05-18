@@ -37,7 +37,6 @@ export const Profile = () => {
 
   const getUsetInformation = async () => {
     const data = await getuserInformation(authData.token);
-    console.log({ data });
     setFormValues(() => data);
   };
 

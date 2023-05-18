@@ -25,3 +25,15 @@ export const getStatus = async () => {
   const { data } = await axios.get('/api/v1/auth/');
   return data;
 };
+
+export const singUpBarber = async (payload: TSignUpPayload) => {
+  try {
+    const { data } = await axios.post(
+      `${baseRoute}auth/local/signup/barber`,
+      payload,
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

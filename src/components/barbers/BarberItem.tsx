@@ -8,7 +8,10 @@ interface IItem {
   openModalFunction: Function;
 }
 
-export const BarberItem: FC<IBarber & IItem> = ({ id, name, surname }) => {
+export const BarberItem: FC<IBarber & IItem> = ({
+  email,
+  openModalFunction,
+}) => {
   const { theme } = useContext(ThemeContext);
   return (
     <View
@@ -30,11 +33,14 @@ export const BarberItem: FC<IBarber & IItem> = ({ id, name, surname }) => {
           },
         ]}
       >
-        <Text style={styles.textSize}>{name}</Text>
-        <Text style={styles.textSize}>{surname} €</Text>
+        <Text
+          style={(styles.textSize, { color: appTheme[theme].colorPrimary })}
+        >
+          {email}
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={() => openModalFunction()}
         style={[
           {
             alignItems: 'center',

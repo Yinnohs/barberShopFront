@@ -56,7 +56,7 @@ export const delegateToClient = async (id: number, token: string) => {
     role: 'CLIENT',
   };
   try {
-    const { data } = await baseApi.put('information/update', payload, {
+    const { data } = await baseApi.put('role/update', payload, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return data;
