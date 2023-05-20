@@ -13,7 +13,6 @@ export const singUpUser = async (payload: TSignUpPayload) => {
 
 export const signInUser = async (payload: TSingInPayload) => {
   try {
-    console.log({ payload });
     const { data } = await axios.post(`${baseRoute}auth/local/signin`, payload);
     return data;
   } catch (error) {
@@ -26,11 +25,14 @@ export const getStatus = async () => {
   return data;
 };
 
-export const singUpBarber = async (payload: TSignUpPayload) => {
+export const singUpBarber = async (payload: TSignUpPayload, token: string) => {
   try {
     const { data } = await axios.post(
       `${baseRoute}auth/local/signup/barber`,
       payload,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
     );
     return data;
   } catch (error) {

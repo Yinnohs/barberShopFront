@@ -100,7 +100,7 @@ export const Login = () => {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'height' : 'padding'}
+      behavior={Platform.OS === 'ios' ? 'height' : 'height'}
       style={[
         styles.container,
         { backgroundColor: appTheme[theme].colorBackground },
@@ -142,7 +142,7 @@ export const Login = () => {
           ]}
           style={[
             {
-              height: '80%',
+              height: '70%',
               width: '100%',
               backgroundColor: appTheme[theme].colorSurface,
               position: 'absolute',

@@ -1,5 +1,5 @@
 import { ReactNode, useContext } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { NavBar } from '../../components/nav';
 import { ThemeContext } from '../../context';
 import { appTheme } from '../../theme';
@@ -14,6 +14,7 @@ export const Layout: React.FunctionComponent<Props> = ({ children }) => {
   const { theme } = useContext(ThemeContext);
   return (
     <SafeAreaView
+      onTouchStart={Keyboard.dismiss}
       style={[
         styles.container,
         { backgroundColor: appTheme[theme].colorBackground },

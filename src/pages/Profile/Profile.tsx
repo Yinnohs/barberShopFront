@@ -7,7 +7,6 @@ import {
   Alert,
   View,
   KeyboardAvoidingView,
-  Platform,
   SafeAreaView,
 } from 'react-native';
 import { BasicButton } from '../../components/Buttons';
@@ -102,8 +101,7 @@ export const Profile = () => {
   return (
     <Layout>
       <KeyboardAvoidingView
-        onTouchStart={Keyboard.dismiss}
-        behavior={Platform.OS === 'ios' ? 'height' : 'padding'}
+        behavior="height"
         style={[
           styles.container,
           { backgroundColor: appTheme[theme].colorBackground },
@@ -119,11 +117,10 @@ export const Profile = () => {
           <View
             style={[
               {
-                height: '80%',
+                height: '100%',
                 width: '95%',
                 backgroundColor: appTheme[theme].colorSurface,
                 ...appTheme[theme].shadowOne,
-                marginTop: 100,
               },
               styles.center,
             ]}
@@ -134,7 +131,6 @@ export const Profile = () => {
                 {
                   color: appTheme[theme].colorPrimary,
                   fontSize: 50,
-                  marginVertical: 10,
                 },
                 appTheme[theme].shadowOne,
               ]}

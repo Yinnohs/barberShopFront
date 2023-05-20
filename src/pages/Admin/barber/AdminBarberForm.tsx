@@ -14,7 +14,7 @@ import { BasicInput } from '../../../components/inputs';
 import { BasicButton } from '../../../components/Buttons';
 import { useNavigation } from '@react-navigation/native';
 import { RouteStackSelection, RootStack } from '../../../router';
-import { singUpUser } from '../../../api';
+import { singUpBarber, singUpUser } from '../../../api';
 import {
   saveAccessToken,
   saveRefreshToken,
@@ -30,7 +30,7 @@ const inputs = {
 };
 
 export const AdminBarnberForm = () => {
-  const { setAuthData } = useContext(AuthContext);
+  const { setAuthData, authData } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
   const [formValues, setFormValues] = useState(inputs);
@@ -89,30 +89,20 @@ export const AdminBarnberForm = () => {
 
     setIsLoading(true);
 
-    const data = await singUpUser(formValues);
+    const data = await singUpBarber(formValues, authData.token);
 
     if (!data) {
       setIsLoading(false);
       return Alert.alert('something went wrong trying to registering');
     }
-
-    await saveAccessToken(data?.access_token);
-    await saveRefreshToken(data?.refresh_token);
-    const authData: IAuthData = {
-      isLogged: true,
-      role: data?.role,
-      rToken: data?.refresh_token,
-      token: data?.access_token,
-    };
-    setAuthData(authData);
     setIsLoading(false);
-    navigation.navigate('Home');
+    navigation.navigate('AdminBarber');
   };
 
   return (
     <KeyboardAvoidingView
       onTouchStart={Keyboard.dismiss}
-      behavior={Platform.OS === 'ios' ? 'height' : 'padding'}
+      behavior={Platform.OS === 'ios' ? 'height' : 'height'}
       style={[
         styles.container,
         { backgroundColor: appTheme[theme].colorBackground },
@@ -237,7 +227,7 @@ export const AdminBarnberForm = () => {
             />
 
             <BasicButton
-              action={() => console.log('TODO::')}
+              action={handleRegister}
               bgColor={appTheme[theme].colorPrimary}
               height={60}
               width={150}
