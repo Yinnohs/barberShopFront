@@ -7,7 +7,7 @@ import { BasicButton } from '../../../components/Buttons';
 import { useNavigation } from '@react-navigation/native';
 import { RouteStackSelection, RootStack } from '../../../router';
 import { ServiceList } from '../../../components/services';
-import { getAllServices, hardDeleteService } from '../../../api/service';
+import { getAllServices, hardDeleteService } from '../../../api/service.api';
 import { IService } from '../../../context/services/ServicesContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DeleteModal } from '../../../components/modals';

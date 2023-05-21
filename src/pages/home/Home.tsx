@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import { Layout } from '../layout';
 import { useContext, useEffect, useState } from 'react';
-import { getAllServices } from '../../api/service';
+import { getAllServices } from '../../api/service.api';
 import { ThemeContext, AuthContext } from '../../context';
 import { IService } from '../../context/services/ServicesContext';
 

@@ -14,6 +14,7 @@ import {
 } from '../pages/admin';
 import { Profile } from '../pages/profile/Profile';
 import { Header } from '../components/header';
+import { AppointmentFirst } from '../pages/appointment';
 
 const Stack = createNativeStackNavigator<RootStack>();
 
@@ -69,6 +70,12 @@ const Router = () => {
         <Stack.Screen
           name="AdminServiceForm"
           component={AdminServiceForm}
+          options={headerOptions}
+        />
+
+        <Stack.Screen
+          name="AppointmentFirst"
+          component={AppointmentFirst}
           options={headerOptions}
         />
       </Stack.Navigator>

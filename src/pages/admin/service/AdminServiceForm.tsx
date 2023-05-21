@@ -16,7 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import { RouteStackSelection, RootStack } from '../../../router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Loader } from '../../../components/loader/Loader';
-import { createService } from '../../../api/service';
+import { createService } from '../../../api/service.api';
 
 const inputs = {
   description: '',

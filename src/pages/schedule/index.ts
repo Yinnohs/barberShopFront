@@ -1,2 +1,1 @@
-export * from './AppointmentFirst';
-export * from './AppointmentSecond';
+export * from './';
