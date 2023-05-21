@@ -9,11 +9,9 @@ export default function App() {
   return (
     <AuthProvider>
       <ThemeProvider>
-        <BarbersProvider>
-          <QueryClientProvider client={client}>
-            <Router />
-          </QueryClientProvider>
-        </BarbersProvider>
+        <QueryClientProvider client={client}>
+          <Router />
+        </QueryClientProvider>
       </ThemeProvider>
     </AuthProvider>
   );
