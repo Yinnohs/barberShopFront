@@ -5,17 +5,14 @@ import { Auth } from '../pages/auth/Auth';
 import { Login } from '../pages/login';
 import { Home } from '../pages/home';
 import { Register } from '../pages/register/Register';
-import { useContext } from 'react';
-import { ThemeContext } from '../context';
-import { appTheme } from '../theme';
 import {
   AdminBarber,
   Admin,
   AdminBarnberForm,
   AdminService,
   AdminServiceForm,
-} from '../pages/Admin';
-import { Profile } from '../pages/Profile/Profile';
+} from '../pages/admin';
+import { Profile } from '../pages/profile/Profile';
 import { Header } from '../components/header';
 
 const Stack = createNativeStackNavigator<RootStack>();
