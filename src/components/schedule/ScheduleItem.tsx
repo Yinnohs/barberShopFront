@@ -1,10 +1,10 @@
-export const ScheduleItem = () => {};
 import { FC, useContext, useEffect, useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { IService } from '../../context/services/ServicesContext';
-import { AuthContext, IBarber, ISchedule, ThemeContext } from '../../context';
+import { IBarber, ISchedule, ThemeContext } from '../../context';
 import { appTheme } from '../../theme';
 import Icon from '@expo/vector-icons/MaterialIcons';
+import moment from 'moment';
 
 interface IItem {
   openModalFunction: Function;
@@ -20,19 +20,23 @@ interface IShowService {
   price: number;
 }
 
-export const ServiceItem: FC<TScheduleItem> = ({
+moment.locale('es');
+
+export const ScheduleItem: FC<TScheduleItem> = ({
   name,
   surname,
   openModalFunction,
   scheduleId,
   services,
+  scheduledDateTime,
 }) => {
   const { theme } = useContext(ThemeContext);
-  const { authData } = useContext(AuthContext);
 
   const [showService, setShowService] = useState<IShowService>(
     {} as IShowService,
   );
+
+  const currentDate = moment(scheduledDateTime);
 
   const formatServices = () => {
     const serviceData: IShowService = services.reduce(
@@ -73,7 +77,13 @@ export const ServiceItem: FC<TScheduleItem> = ({
         <Text
           style={[styles.textSize, { color: appTheme[theme].colorPrimary }]}
         >
-          {``}
+          {`${showService.services}
+          $${showService.price} €`}
+        </Text>
+        <Text
+          style={[styles.textSize, { color: appTheme[theme].colorPrimary }]}
+        >
+          {`${currentDate.format('dddd Do MMMM YYYY')}`}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
