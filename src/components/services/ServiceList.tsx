@@ -23,6 +23,7 @@ export const ServiceList: FC<IServiceList> = ({
 
   return (
     <FlatList
+      contentContainerStyle={{ paddingBottom: 100 }}
       data={services}
       keyExtractor={({ id }) => `service-${id}`}
       renderItem={({ item }) => (
@@ -33,7 +34,6 @@ export const ServiceList: FC<IServiceList> = ({
           price={item.price}
         />
       )}
-      bounces={false}
       collapsable={true}
       progressViewOffset={20}
     />

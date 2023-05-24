@@ -14,7 +14,6 @@ export const BarberList: FC<IBarberList> = ({
   openCloseModal,
   setIdToDelete,
 }) => {
-  const { theme } = useContext(ThemeContext);
   const openFunction = async (id: number) => {
     openCloseModal(true);
     setIdToDelete(id);
@@ -22,6 +21,7 @@ export const BarberList: FC<IBarberList> = ({
 
   return (
     <FlatList
+      contentContainerStyle={{ paddingBottom: 100 }}
       initialNumToRender={10}
       data={barbers}
       keyExtractor={({ id }) => `service-${id}`}
@@ -34,7 +34,6 @@ export const BarberList: FC<IBarberList> = ({
           openModalFunction={() => openFunction(item.id)}
         />
       )}
-      bounces={false}
       collapsable={true}
       centerContent
     />
