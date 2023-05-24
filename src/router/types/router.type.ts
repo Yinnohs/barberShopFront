@@ -14,6 +14,7 @@ export type RootStack = {
   Register: undefined;
   AppointmentFirst: undefined;
   AppointmentSecond: undefined;
+  Schedules: undefined;
 };
 
 export type AuthRouteType = NativeStackNavigationProp<any, 'Auth'>;

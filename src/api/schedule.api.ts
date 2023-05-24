@@ -7,7 +7,7 @@ const baseApi = axios.create({
 
 export const getUserCurrentSchedules = async (token: string) => {
   try {
-    const { data } = await baseApi.get('my/schedules', {
+    const { data } = await baseApi.get('my/', {
       headers: { Authorization: `Bearer ${token}` },
     });
     return data;
@@ -19,6 +19,17 @@ export const getUserCurrentSchedules = async (token: string) => {
 export const getBarberSchedules = async (token: string, barberId: number) => {
   try {
     const { data } = await baseApi.get(`barber/${barberId}/schedules/`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getBarberSchedulesCurrentBarber = async (token: string) => {
+  try {
+    const { data } = await baseApi.get(`barber/schedules/`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return data;

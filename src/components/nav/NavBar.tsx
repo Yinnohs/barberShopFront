@@ -36,7 +36,7 @@ export const NavBar = () => {
       />
       <NavButton
         iconName="book"
-        page="AppointmentFirst"
+        page="Schedules"
         iconColor={appTheme[theme].colorPrimary}
       />
       <NavButton

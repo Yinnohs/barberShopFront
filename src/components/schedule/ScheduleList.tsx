@@ -18,10 +18,9 @@ export const ScheduleList: FC<IScheduleList> = ({
     setIdToDelete(id);
   };
 
-  useEffect(() => {}, []);
-
   return (
     <FlatList
+      contentContainerStyle={{ alignItems: 'center' }}
       data={schedules}
       keyExtractor={(data: any) => `service-${data?.id}`}
       renderItem={({ item }) => (

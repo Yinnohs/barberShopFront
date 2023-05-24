@@ -3,7 +3,6 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { IService } from '../../context/services/ServicesContext';
 import { IBarber, ISchedule, ThemeContext } from '../../context';
 import { appTheme } from '../../theme';
-import Icon from '@expo/vector-icons/MaterialIcons';
 import moment from 'moment';
 
 interface IItem {
@@ -19,8 +18,6 @@ interface IShowService {
   services: string;
   price: number;
 }
-
-moment.locale('es');
 
 export const ScheduleItem: FC<TScheduleItem> = ({
   name,
@@ -68,52 +65,82 @@ export const ScheduleItem: FC<TScheduleItem> = ({
         appTheme[theme].shadowOne,
       ]}
     >
-      <TouchableOpacity style={[styles.section]}>
-        <Text
-          style={[styles.textSize, { color: appTheme[theme].colorPrimary }]}
-        >
-          {`${name} ${surname}`}
-        </Text>
-        <Text
-          style={[styles.textSize, { color: appTheme[theme].colorPrimary }]}
-        >
-          {`${showService.services}
-          $${showService.price} €`}
-        </Text>
-        <Text
-          style={[styles.textSize, { color: appTheme[theme].colorPrimary }]}
-        >
-          {`${currentDate.format('dddd Do MMMM YYYY')}`}
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => openModalFunction(scheduleId)}
-        style={[
-          {
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '25%',
-            height: '100%',
-          },
-        ]}
-      >
-        <Icon
-          style={{
-            color: appTheme.colorWarning,
-            textAlign: 'center',
-            fontSize: 40,
-          }}
-          name="delete"
-        />
-      </TouchableOpacity>
+      <View style={[styles.sectionCol]}>
+        <View style={[styles.texSection]}>
+          <Text
+            style={[
+              styles.textSize,
+              { color: appTheme[theme].colorPrimary, fontWeight: '800' },
+            ]}
+          >
+            Barbero:
+          </Text>
+          <Text
+            style={[styles.textSize, { color: appTheme[theme].colorPrimary }]}
+          >
+            {`${name} ${surname}`}
+          </Text>
+        </View>
+
+        <View style={[styles.texSection]}>
+          <Text
+            style={[
+              styles.textSize,
+              { color: appTheme[theme].colorPrimary, fontWeight: '800' },
+            ]}
+          >
+            Servicios:
+          </Text>
+          <Text
+            style={[styles.textSize, { color: appTheme[theme].colorPrimary }]}
+          >
+            {`${showService.services}`}
+          </Text>
+        </View>
+
+        <View style={[styles.texSection]}>
+          <Text
+            style={[
+              styles.textSize,
+              {
+                color: appTheme[theme].colorPrimary,
+                fontWeight: '800',
+              },
+            ]}
+          >
+            Total:
+          </Text>
+          <Text
+            style={[styles.textSize, { color: appTheme[theme].colorPrimary }]}
+          >
+            {`${showService.price} €`}
+          </Text>
+        </View>
+
+        <View style={[styles.texSection]}>
+          <Text
+            style={[
+              styles.textSize,
+              { color: appTheme[theme].colorPrimary, fontWeight: '800' },
+            ]}
+          >
+            Fecha:
+          </Text>
+          <Text
+            style={[styles.textSize, { color: appTheme[theme].colorPrimary }]}
+          >
+            {`${currentDate.locale('ES').format('dddd Do MMMM YYYY')}`}
+          </Text>
+        </View>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   item: {
-    width: '100%',
-    height: 100,
+    width: '90%',
+    height: 200,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -122,7 +149,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   textSize: {
-    fontSize: 20,
+    fontSize: 15,
   },
   section: {
     width: '100%',
@@ -130,5 +157,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
+  },
+
+  sectionCol: {
+    width: '100%',
+    height: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+
+  texSection: {
+    width: '80%',
+    height: '25%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });

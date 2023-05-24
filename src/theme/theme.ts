@@ -7,7 +7,7 @@ export const appTheme = {
     colorInput: '#E4DED0',
 
     shadowOne: {
-      shadowColor: '#000000',
+      shadowColor: 'rgba(0,0,0,0.5)',
       shadowOffset: {
         width: 0,
         height: 2,
@@ -18,7 +18,7 @@ export const appTheme = {
     },
 
     shadowTwo: {
-      shadowColor: '#000000',
+      shadowColor: 'rgba(0,0,0,0.5)',
       shadowOffset: {
         width: 0,
         height: 5,
@@ -29,7 +29,7 @@ export const appTheme = {
     },
 
     shadowThree: {
-      shadowColor: '#000000',
+      shadowColor: 'rgba(0,0,0,0.5)',
       shadowOffset: {
         width: 0,
         height: 9,
