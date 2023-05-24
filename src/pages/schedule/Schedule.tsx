@@ -8,6 +8,7 @@ import {
 } from '../../api';
 
 import { ScheduleList } from '../../components/schedule/ScheduleList';
+import { appTheme } from '../../theme';
 
 export const Schedule = () => {
   const { theme } = useContext(ThemeContext);
@@ -24,7 +25,7 @@ export const Schedule = () => {
       : (data = await getUserCurrentSchedules(authData.token));
 
     if (!data) {
-      Alert.alert('Algo salió mal al consguire las citas');
+      Alert.alert('Algo salió mal al consguir las citas');
     } else {
       setSchedules(data);
     }
@@ -37,7 +38,16 @@ export const Schedule = () => {
   return (
     <Layout>
       <SafeAreaView>
-        <Text>Mis Citas</Text>
+        <Text
+          style={{
+            fontSize: 30,
+            color: appTheme[theme].colorPrimary,
+            textAlign: 'center',
+            marginBottom: 15,
+          }}
+        >
+          Mis Citas
+        </Text>
         <ScheduleList
           schedules={schedules}
           openCloseModal={setIsOpen}

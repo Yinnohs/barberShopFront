@@ -20,7 +20,7 @@ export const ScheduleList: FC<IScheduleList> = ({
 
   return (
     <FlatList
-      contentContainerStyle={{ alignItems: 'center' }}
+      contentContainerStyle={{ alignItems: 'center', paddingBottom: 100 }}
       data={schedules}
       keyExtractor={(data: any) => `service-${data?.id}`}
       renderItem={({ item }) => (
@@ -33,7 +33,6 @@ export const ScheduleList: FC<IScheduleList> = ({
           scheduleId={item?.id}
         />
       )}
-      bounces={false}
       collapsable={true}
       progressViewOffset={20}
     />
