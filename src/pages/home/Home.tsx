@@ -1,26 +1,28 @@
-import { View } from 'react-native';
+import { View, ImageBackground } from 'react-native';
 import { Layout } from '../layout';
-import { useContext, useEffect, useState } from 'react';
-import { getAllServices } from '../../api/service.api';
-import { ThemeContext, AuthContext } from '../../context';
-import { IService } from '../../context/services/ServicesContext';
 
 export const Home = () => {
-  const { theme } = useContext(ThemeContext);
-  const [cServices, setCServices] = useState<IService[]>();
-  const { authData } = useContext(AuthContext);
-
-  const fetchServices = async () => {
-    const fetchedServices = await getAllServices(authData.token);
-    setCServices(fetchedServices);
-  };
-
-  useEffect(() => {
-    fetchServices();
-  }, []);
   return (
     <Layout>
-      <View style={{ flex: 1 }}></View>
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <ImageBackground
+          borderRadius={20}
+          style={{
+            width: '95%',
+            height: '80%',
+            marginLeft: 15,
+          }}
+          source={require('../../../assets/imgs/back.png')}
+        />
+      </View>
     </Layout>
   );
 };

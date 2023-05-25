@@ -75,6 +75,12 @@ const Router = () => {
         />
 
         <Stack.Screen
+          name="AdminServiceFormUpdate"
+          component={AdminServiceForm}
+          options={headerOptions}
+        />
+
+        <Stack.Screen
           name="AppointmentFirst"
           component={AppointmentFirst}
           options={headerOptions}

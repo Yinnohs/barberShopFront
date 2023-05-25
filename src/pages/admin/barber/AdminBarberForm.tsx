@@ -8,17 +8,18 @@ import {
   Platform,
 } from 'react-native';
 import { appTheme } from '../../../theme';
-import { useContext, useState } from 'react';
-import { AuthContext, IAuthData, ThemeContext } from '../../../context';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext, ThemeContext } from '../../../context';
 import { BasicInput } from '../../../components/inputs';
 import { BasicButton } from '../../../components/Buttons';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { RouteStackSelection, RootStack } from '../../../router';
-import { singUpBarber, singUpUser } from '../../../api';
 import {
-  saveAccessToken,
-  saveRefreshToken,
-} from '../../../localStorage/localStorage';
+  getuserInformationById,
+  singUpBarber,
+  updateBarber,
+  updateUser,
+} from '../../../api';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Loader } from '../../../components/loader/Loader';
 
@@ -30,7 +31,10 @@ const inputs = {
 };
 
 export const AdminBarnberForm = () => {
-  const { setAuthData, authData } = useContext(AuthContext);
+  const route = useRoute<RouteProp<Record<string, any>, string>>();
+  const id = route?.params?.id;
+  const text = !id ? 'Registra un barbero' : 'Actualiza un barbero';
+  const { authData } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
   const [formValues, setFormValues] = useState(inputs);
@@ -68,9 +72,14 @@ export const AdminBarnberForm = () => {
       valid = false;
     }
 
-    if (!formValues.password) {
-      handleErrorChange('El campo contraseña no puede estár vacío', 'password');
-      valid = false;
+    if (!id) {
+      if (!formValues.password) {
+        handleErrorChange(
+          'El campo contraseña no puede estár vacío',
+          'password',
+        );
+        valid = false;
+      }
     }
 
     return valid;
@@ -93,11 +102,58 @@ export const AdminBarnberForm = () => {
 
     if (!data) {
       setIsLoading(false);
-      return Alert.alert('something went wrong trying to registering');
+      return Alert.alert('Algo salió mal actualizando el Barbero');
     }
     setIsLoading(false);
     navigation.navigate('AdminBarber');
   };
+
+  const handleUpdate = async () => {
+    const isValidForm = validate();
+
+    if (!isValidForm) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    const payload = {
+      name: formValues.name,
+      surname: formValues.surname,
+      email: formValues.email,
+    };
+
+    const data = await updateBarber(payload, authData.token, id);
+
+    if (!data) {
+      setIsLoading(false);
+      return Alert.alert('something went wrong trying to registering');
+    }
+
+    setIsLoading(false);
+  };
+
+  const handleSend = () => {
+    if (!id) {
+      handleRegister();
+    } else {
+      handleUpdate();
+    }
+  };
+
+  const getUsetInformation = async () => {
+    const data = await getuserInformationById(authData.token, id);
+    if (!data) {
+      Alert.alert('Algo pasó al conseguir la información desde el servidor');
+    }
+    setFormValues(data);
+  };
+
+  useEffect(() => {
+    if (id) {
+      getUsetInformation();
+    }
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -133,7 +189,7 @@ export const AdminBarnberForm = () => {
               marginVertical: 5,
             }}
           >
-            Registra un barbero
+            {text}
           </Text>
           <BasicInput
             action={(value: string) => {
@@ -187,23 +243,27 @@ export const AdminBarnberForm = () => {
             heigth={'10%'}
           />
 
-          <BasicInput
-            action={(value: string) => {
-              handleInputChange(value, 'password');
-            }}
-            value={formValues.password}
-            labelString="Contraseña"
-            variation="password"
-            type="text"
-            iconName="lock-outline"
-            placeholder="Contraseña"
-            error={errors.password}
-            onFocusFunction={() => {
-              handleErrorChange('', 'password');
-            }}
-            marginVertical={10}
-            heigth={'10%'}
-          />
+          {!id ? (
+            <BasicInput
+              action={(value: string) => {
+                handleInputChange(value, 'password');
+              }}
+              value={formValues.password}
+              labelString="Contraseña"
+              variation="password"
+              type="text"
+              iconName="lock-outline"
+              placeholder="Contraseña"
+              error={errors.password}
+              onFocusFunction={() => {
+                handleErrorChange('', 'password');
+              }}
+              marginVertical={10}
+              heigth={'10%'}
+            />
+          ) : (
+            <></>
+          )}
 
           <View
             style={{
@@ -227,7 +287,7 @@ export const AdminBarnberForm = () => {
             />
 
             <BasicButton
-              action={handleRegister}
+              action={handleSend}
               bgColor={appTheme[theme].colorPrimary}
               height={60}
               width={150}

@@ -129,7 +129,7 @@ export const ScheduleItem: FC<TScheduleItem> = ({
           <Text
             style={[styles.textSize, { color: appTheme[theme].colorPrimary }]}
           >
-            {`${currentDate.locale('ES').format('dddd Do MMMM YYYY')}`}
+            {`${currentDate.locale('es_ES').format('dddd Do MMMM YYYY')}`}
           </Text>
         </View>
       </View>

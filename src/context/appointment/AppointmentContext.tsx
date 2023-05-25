@@ -2,7 +2,6 @@ import { FC, createContext, useState } from 'react';
 
 export interface IAppointmentData {
   barberId: number;
-  userId: number;
   service: number[];
   scheduledDateTime: string;
 }
@@ -10,7 +9,6 @@ export interface IAppointmentData {
 export interface ISchedule {
   scheduleId: number;
   barberId: number;
-  userId: number;
   service: number[];
   scheduledDateTime: string;
 }
@@ -23,7 +21,6 @@ export interface IAppointment {
 export const AppointmentContext = createContext<IAppointment>({
   appointment: {
     barberId: 0,
-    userId: 0,
     service: [] as number[],
     scheduledDateTime: '',
   },
@@ -33,7 +30,6 @@ export const AppointmentContext = createContext<IAppointment>({
 export const AppointmentProvider: FC<any> = ({ children }) => {
   const [appointment, setAppointment] = useState<IAppointmentData>({
     barberId: 0,
-    userId: 0,
     service: [] as number[],
     scheduledDateTime: '',
   });

@@ -1,8 +1,10 @@
-import { FC, useContext } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { IBarber, ThemeContext } from '../../context';
 import { appTheme } from '../../theme';
 import Icon from '@expo/vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
+import { RouteStackSelection, RootStack } from '../../router';
 
 interface IItem {
   openModalFunction: Function;
@@ -11,8 +13,11 @@ interface IItem {
 export const BarberItem: FC<IBarber & IItem> = ({
   email,
   openModalFunction,
+  id,
 }) => {
   const { theme } = useContext(ThemeContext);
+  const navigation = useNavigation<RouteStackSelection<RootStack>>();
+  useEffect(() => {}, []);
   return (
     <View
       style={[
@@ -22,7 +27,7 @@ export const BarberItem: FC<IBarber & IItem> = ({
       ]}
     >
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={() => navigation.navigate('AdminBarberForm', { id })}
         style={[
           {
             width: '75%',

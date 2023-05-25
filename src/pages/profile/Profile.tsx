@@ -100,13 +100,7 @@ export const Profile = () => {
 
   return (
     <Layout>
-      <KeyboardAvoidingView
-        behavior="height"
-        style={[
-          styles.container,
-          { backgroundColor: appTheme[theme].colorBackground },
-        ]}
-      >
+      <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
         <SafeAreaView
           style={[
             styles.container,
@@ -117,8 +111,9 @@ export const Profile = () => {
           <View
             style={[
               {
-                height: '100%',
-                width: '95%',
+                flex: 0.8,
+                // height: '10pt',
+                // width: '95%',
                 backgroundColor: appTheme[theme].colorSurface,
                 ...appTheme[theme].shadowOne,
               },

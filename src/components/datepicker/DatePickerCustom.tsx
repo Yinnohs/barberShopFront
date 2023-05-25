@@ -2,18 +2,22 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 import React, { useContext, useState } from 'react';
 import { appTheme } from '../../theme';
-import { ThemeContext } from '../../context';
+import { AppointmentContext, ThemeContext } from '../../context';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { BasicButton } from '../Buttons';
+
 export const DatePickerCustom = () => {
   const { theme } = useContext(ThemeContext);
-  const [open, setOpen] = useState<boolean>(false);
-  const [date, setDate] = useState<Date | null>();
+  const { appointment, setAppointment } = useContext(AppointmentContext);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [date, setDate] = useState<Date>(new Date());
 
   const handleOpen = () => {
-    setOpen(true);
+    setIsOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setIsOpen(false);
   };
 
   const handleDatePick = (value: Date) => {
@@ -22,21 +26,24 @@ export const DatePickerCustom = () => {
 
   return (
     <SafeAreaView>
-      <TouchableOpacity>
-        <Text> Open </Text>
-      </TouchableOpacity>
-
-      <Modal>
-        <View style={styles.centeredView}>
-          <View
-            style={[
-              styles.modalView,
-              appTheme[theme].shadowOne,
-              { backgroundColor: appTheme[theme].colorBackground },
-            ]}
-          ></View>
-        </View>
-      </Modal>
+      <BasicButton
+        action={() => handleOpen()}
+        bgColor={appTheme[theme].colorSecondary}
+        height={60}
+        width={150}
+        rounded={true}
+        textColor={appTheme[theme].colorPrimary}
+        title="Cancelar"
+        type="outline"
+        textSize={20}
+      />
+      <DateTimePickerModal
+        isVisible={isOpen}
+        mode="date"
+        onConfirm={handleDatePick}
+        onCancel={handleClose}
+        date={date}
+      />
     </SafeAreaView>
   );
 };

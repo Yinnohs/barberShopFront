@@ -50,6 +50,25 @@ export const updateUser = async (payload: TUpdateUser, token: string) => {
   }
 };
 
+export const updateBarber = async (
+  payload: TUpdateUser,
+  token: string,
+  id: string,
+) => {
+  try {
+    const { data } = await baseApi.put(
+      `information/update/barber/${id}`,
+      payload,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const delegateToClient = async (id: number, token: string) => {
   const payload = {
     id,
@@ -57,6 +76,17 @@ export const delegateToClient = async (id: number, token: string) => {
   };
   try {
     const { data } = await baseApi.put('role/update', payload, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getuserInformationById = async (token: string, id: string) => {
+  try {
+    const { data } = await baseApi.get(`information/barber/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return data;
