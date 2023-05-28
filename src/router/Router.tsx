@@ -14,7 +14,7 @@ import {
 } from '../pages/admin';
 import { Profile } from '../pages/profile/Profile';
 import { Header } from '../components/header';
-import { AppointmentFirst } from '../pages/appointment';
+import { AppointmentFirst, AppointmentSecond } from '../pages/appointment';
 import { Schedule } from '../pages/schedule/Schedule';
 
 const Stack = createNativeStackNavigator<RootStack>();
@@ -83,6 +83,12 @@ const Router = () => {
         <Stack.Screen
           name="AppointmentFirst"
           component={AppointmentFirst}
+          options={headerOptions}
+        />
+
+        <Stack.Screen
+          name="AppointmentSecond"
+          component={AppointmentSecond}
           options={headerOptions}
         />
 

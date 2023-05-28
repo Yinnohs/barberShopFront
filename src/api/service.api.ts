@@ -47,12 +47,14 @@ export const getOneService = async (id: number, token: string) => {
 
 export const updateService = async (
   payload: TServiceUpdatePayload,
+  id: number,
   token: string,
 ) => {
   try {
-    const { data } = await baseApi.put('', payload, {
+    const { data } = await baseApi.put(`${id}`, payload, {
       headers: { Authorization: `Bearer ${token}` },
     });
+
     return data;
   } catch (error) {
     console.log(error);

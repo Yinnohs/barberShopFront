@@ -82,7 +82,7 @@ export const Login = () => {
 
     if (!data) {
       setIsLoading(false);
-      return Alert.alert('something went wrong trying to registering');
+      return Alert.alert('Usuario o contraseña incorrectos');
     }
 
     await saveAccessToken(data?.access_token);

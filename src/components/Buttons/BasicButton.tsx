@@ -12,6 +12,7 @@ interface Props {
   textColor: string;
   textSize: number;
   rounded: boolean;
+  disable?: boolean;
 }
 
 export const BasicButton: FC<Props> = ({
@@ -24,6 +25,7 @@ export const BasicButton: FC<Props> = ({
   textColor,
   rounded,
   textSize,
+  disable,
 }) => {
   return (
     <TouchableOpacity
@@ -42,6 +44,7 @@ export const BasicButton: FC<Props> = ({
         },
       ]}
       onPress={() => action()}
+      disabled={disable}
     >
       <Text
         style={{

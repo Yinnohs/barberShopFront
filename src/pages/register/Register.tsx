@@ -95,7 +95,9 @@ export const Register = () => {
 
     if (!data) {
       setIsLoading(false);
-      return Alert.alert('something went wrong trying to registering');
+      return Alert.alert(
+        'Algo ha pasado raro ha pasado al intentar registrarte',
+      );
     }
 
     await saveAccessToken(data?.access_token);

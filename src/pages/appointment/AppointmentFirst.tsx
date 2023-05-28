@@ -8,7 +8,7 @@ import {
   IAppointmentData,
 } from '../../context';
 import { Layout } from '../layout';
-import { SafeAreaView, View, Text } from 'react-native';
+import { SafeAreaView, View, Text, Alert } from 'react-native';
 import {
   MultipleSelectList,
   SelectList,
@@ -30,8 +30,10 @@ export const AppointmentFirst = () => {
 
   const [selectedServices, setSelectedServices] = useState<number[]>([]);
   const [selectedBarber, setSelectedBarber] = useState<number>(0);
-  const [services, setServices] = useState<IService[]>([]);
-  const [barbers, setBarbers] = useState<IBarber[]>([]);
+  const [services, setServices] = useState<{ key: number; value: string }[]>(
+    [],
+  );
+  const [barbers, setBarbers] = useState<{ key: number; value: string }[]>([]);
 
   const fetchServices = async () => {
     const fetchedServices = await getAllServices(authData.token);
@@ -39,7 +41,7 @@ export const AppointmentFirst = () => {
     const serviceData = fetchedServices.map((service: IService) => {
       return {
         key: service?.id,
-        value: service?.description,
+        value: service?.description + ' ' + service?.price + '€',
       };
     });
 
@@ -55,7 +57,6 @@ export const AppointmentFirst = () => {
         value: `${barber.name} ${barber.surname}`,
       };
     });
-
     setBarbers(barberData);
   };
 
@@ -66,15 +67,22 @@ export const AppointmentFirst = () => {
   };
 
   const handleNextStep = () => {
+    if (selectedServices.length <= 0 || selectedBarber <= 0) {
+      Alert.alert(
+        'Ni el servicio a pedir ni el barbero pueden estar sin seleccionar',
+      );
+    }
+
     const appointment: IAppointmentData = {
       barberId: selectedBarber,
       service: selectedServices,
-      userId: 0,
       scheduledDateTime: '',
     };
     setAppointment(appointment);
     navigation.navigate('AppointmentSecond');
   };
+
+  const isDisable = selectedServices.length <= 0 || selectedBarber <= 0;
 
   useEffect(() => {
     handleInitialLoad();
@@ -92,6 +100,7 @@ export const AppointmentFirst = () => {
           <SelectList
             boxStyles={{ backgroundColor: appTheme[theme].colorSurface }}
             dropdownItemStyles={{ borderColor: appTheme[theme].colorPrimary }}
+            dropdownTextStyles={{ color: appTheme[theme].colorPrimary }}
             inputStyles={{ color: appTheme[theme].colorPrimary }}
             dropdownStyles={{ backgroundColor: appTheme[theme].colorSurface }}
             data={barbers}
@@ -108,13 +117,17 @@ export const AppointmentFirst = () => {
             Elige los servicios:
           </Text>
           <MultipleSelectList
+            dropdownTextStyles={{ color: appTheme[theme].colorPrimary }}
             boxStyles={{ backgroundColor: appTheme[theme].colorSurface }}
             dropdownItemStyles={{ borderColor: appTheme[theme].colorPrimary }}
             inputStyles={{ color: appTheme[theme].colorPrimary }}
             dropdownStyles={{ backgroundColor: appTheme[theme].colorSurface }}
-            labelStyles={{ color: appTheme[theme].colorPrimary }}
+            labelStyles={{ color: appTheme[theme].colorSecondary }}
             badgeStyles={{
-              backgroundColor: appTheme[theme].colorBackground,
+              backgroundColor:
+                theme === 'dark'
+                  ? appTheme[theme].colorBackground
+                  : appTheme[theme].colorSecondary,
             }}
             data={services}
             setSelected={(id: number[]) => setSelectedServices(id)}
@@ -122,7 +135,7 @@ export const AppointmentFirst = () => {
             closeicon={<SearchIcon />}
             arrowicon={<ArrowIcon />}
             searchPlaceholder="Busca un servicio"
-            placeholder="Bsuca un servicio"
+            placeholder="Busca un servicio"
           />
         </View>
 
@@ -149,6 +162,7 @@ export const AppointmentFirst = () => {
             title="Siguiente Paso"
             type="filled"
             textSize={20}
+            disable={isDisable}
           />
         </View>
       </SafeAreaView>

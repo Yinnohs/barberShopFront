@@ -6,13 +6,6 @@ export interface IAppointmentData {
   scheduledDateTime: string;
 }
 
-export interface ISchedule {
-  scheduleId: number;
-  barberId: number;
-  service: number[];
-  scheduledDateTime: string;
-}
-
 export interface IAppointment {
   appointment: IAppointmentData;
   setAppointment: Function;

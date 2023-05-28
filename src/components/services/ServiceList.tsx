@@ -23,7 +23,7 @@ export const ServiceList: FC<IServiceList> = ({
 
   return (
     <FlatList
-      contentContainerStyle={{ paddingBottom: 100 }}
+      contentContainerStyle={{ paddingBottom: 200 }}
       data={services}
       keyExtractor={({ id }) => `service-${id}`}
       renderItem={({ item }) => (

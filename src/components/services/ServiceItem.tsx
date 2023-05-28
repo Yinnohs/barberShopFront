@@ -4,6 +4,8 @@ import { IService } from '../../context/services/ServicesContext';
 import { ThemeContext } from '../../context';
 import { appTheme } from '../../theme';
 import Icon from '@expo/vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
+import { RouteStackSelection, RootStack } from '../../router';
 
 interface IItem {
   openModalFunction: Function;
@@ -16,6 +18,7 @@ export const ServiceItem: FC<IService & IItem> = ({
   openModalFunction,
 }) => {
   const { theme } = useContext(ThemeContext);
+  const navigation = useNavigation<RouteStackSelection<RootStack>>();
   return (
     <View
       style={[
@@ -25,6 +28,7 @@ export const ServiceItem: FC<IService & IItem> = ({
       ]}
     >
       <TouchableOpacity
+        onPress={() => navigation.navigate('AdminServiceForm', { id: id })}
         style={[
           {
             width: '75%',

@@ -8,15 +8,20 @@ import {
   Platform,
 } from 'react-native';
 import { appTheme } from '../../../theme';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext, ThemeContext } from '../../../context';
 import { BasicInput } from '../../../components/inputs';
 import { BasicButton } from '../../../components/Buttons';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { RouteStackSelection, RootStack } from '../../../router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Loader } from '../../../components/loader/Loader';
-import { createService } from '../../../api/service.api';
+import {
+  createService,
+  getOneService,
+  updateService,
+} from '../../../api/service.api';
+import { Layout } from '../../layout';
 
 const inputs = {
   description: '',
@@ -25,7 +30,11 @@ const inputs = {
 };
 
 export const AdminServiceForm = () => {
-  const { setAuthData, authData } = useContext(AuthContext);
+  const route = useRoute<RouteProp<Record<string, any>, string>>();
+  const id = route?.params?.id;
+  const text = !id ? 'Crea un Servicio' : 'Actualiza un Servicio';
+
+  const { authData } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
   const [formValues, setFormValues] = useState(inputs);
@@ -60,6 +69,15 @@ export const AdminServiceForm = () => {
     return valid;
   };
 
+  const getServiceData = async () => {
+    const data = await getOneService(id, authData.token);
+    setFormValues({
+      price: data.price,
+      isActive: data.isActive,
+      description: data.description,
+    });
+  };
+
   const handleCancel = () => {
     navigation.navigate('AdminServices');
   };
@@ -89,113 +107,154 @@ export const AdminServiceForm = () => {
     navigation.navigate('AdminServices');
   };
 
+  const handleUpdate = async () => {
+    const isValidForm = validate();
+
+    if (!isValidForm) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    const updateServiceData = {
+      ...formValues,
+      price: parseFloat(formValues.price),
+    };
+
+    const data = await updateService(updateServiceData, id, authData.token);
+
+    if (!data) {
+      setIsLoading(false);
+      return Alert.alert('Algo malo ocurrió al actualizar el servicio');
+    }
+
+    setIsLoading(false);
+    navigation.navigate('AdminServices');
+  };
+
+  const handleSend = () => {
+    if (!id) {
+      handleCreation();
+    } else {
+      handleUpdate();
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      getServiceData();
+    }
+  }, []);
+
   return (
-    <KeyboardAvoidingView
-      onTouchStart={Keyboard.dismiss}
-      behavior={Platform.OS === 'ios' ? 'height' : 'padding'}
-      style={[
-        styles.container,
-        { backgroundColor: appTheme[theme].colorBackground },
-      ]}
-    >
-      <SafeAreaView
+    <Layout>
+      <KeyboardAvoidingView
+        onTouchStart={Keyboard.dismiss}
+        behavior={Platform.OS === 'ios' ? 'height' : 'padding'}
         style={[
           styles.container,
-          styles.center,
           { backgroundColor: appTheme[theme].colorBackground },
         ]}
       >
-        <View
+        <SafeAreaView
           style={[
-            {
-              height: '100%',
-              width: '95%',
-              backgroundColor: appTheme[theme].colorSurface,
-              ...appTheme[theme].shadowOne,
-            },
+            styles.container,
+            styles.center,
+            { backgroundColor: appTheme[theme].colorBackground },
           ]}
         >
-          <Text
-            style={{
-              fontSize: 40,
-              color: appTheme[theme].colorPrimary,
-              textAlign: 'center',
-              marginVertical: 5,
-            }}
-          >
-            Crea un nuevo servicio
-          </Text>
-          <BasicInput
-            action={(value: string) => {
-              handleInputChange(value, 'description');
-            }}
-            value={formValues.description}
-            labelString="Descripcion"
-            type="text"
-            iconName="short-text"
-            placeholder="Descripcion del servicio"
-            error={errors.description}
-            onFocusFunction={() => {
-              handleErrorChange('', 'description');
-            }}
-            marginVertical={10}
-            heigth={'10%'}
-          />
-
-          <BasicInput
-            action={(value: string) => {
-              handleInputChange(value, 'price');
-            }}
-            value={formValues.price}
-            labelString="Precio"
-            type="number"
-            iconName="attach-money"
-            placeholder="Precio"
-            error={errors.price}
-            onFocusFunction={() => {
-              handleErrorChange('', 'price');
-            }}
-            marginVertical={10}
-            heigth={'10%'}
-          />
-
           <View
-            style={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-              marginTop: 50,
-            }}
+            style={[
+              {
+                height: '100%',
+                width: '95%',
+                backgroundColor: appTheme[theme].colorSurface,
+                ...appTheme[theme].shadowOne,
+              },
+            ]}
           >
-            <BasicButton
-              action={() => handleCancel()}
-              bgColor={appTheme[theme].colorSecondary}
-              height={60}
-              width={150}
-              rounded={true}
-              textColor={appTheme[theme].colorPrimary}
-              title="Cancelar"
-              type="outline"
-              textSize={20}
+            <Text
+              style={{
+                fontSize: 40,
+                color: appTheme[theme].colorPrimary,
+                textAlign: 'center',
+                marginVertical: 5,
+              }}
+            >
+              {text}
+            </Text>
+            <BasicInput
+              action={(value: string) => {
+                handleInputChange(value, 'description');
+              }}
+              value={formValues.description}
+              labelString="Descripcion"
+              type="text"
+              iconName="short-text"
+              placeholder="Descripcion del servicio"
+              error={errors.description}
+              onFocusFunction={() => {
+                handleErrorChange('', 'description');
+              }}
+              marginVertical={10}
+              heigth={'10%'}
             />
 
-            <BasicButton
-              action={() => handleCreation()}
-              bgColor={appTheme[theme].colorPrimary}
-              height={60}
-              width={150}
-              rounded={true}
-              textColor={appTheme[theme].colorSurface}
-              title="Enviar"
-              type="filled"
-              textSize={20}
+            <BasicInput
+              action={(value: string) => {
+                handleInputChange(value, 'price');
+              }}
+              value={formValues.price}
+              labelString="Precio"
+              type="number"
+              iconName="attach-money"
+              placeholder="Precio"
+              error={errors.price}
+              onFocusFunction={() => {
+                handleErrorChange('', 'price');
+              }}
+              marginVertical={10}
+              heigth={'10%'}
             />
+
+            <View
+              style={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                marginTop: 50,
+              }}
+            >
+              <BasicButton
+                action={() => handleCancel()}
+                bgColor={appTheme[theme].colorSecondary}
+                height={60}
+                width={150}
+                rounded={true}
+                textColor={appTheme[theme].colorPrimary}
+                title="Cancelar"
+                type="outline"
+                textSize={20}
+              />
+
+              <BasicButton
+                action={handleSend}
+                bgColor={appTheme[theme].colorPrimary}
+                height={60}
+                width={150}
+                rounded={true}
+                textColor={appTheme[theme].colorSurface}
+                title="Enviar"
+                type="filled"
+                textSize={20}
+              />
+            </View>
           </View>
-        </View>
-      </SafeAreaView>
-      <Loader isVisible={isLoading} />
-    </KeyboardAvoidingView>
+        </SafeAreaView>
+        <Loader isVisible={isLoading} />
+      </KeyboardAvoidingView>
+    </Layout>
   );
 };
 

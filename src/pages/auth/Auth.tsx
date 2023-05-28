@@ -86,7 +86,7 @@ export const Auth = () => {
             width="40%"
             rounded={true}
             textColor={appTheme[theme].colorPrimary}
-            title="Logueate"
+            title="Entra"
             type="outline"
             textSize={20}
           />

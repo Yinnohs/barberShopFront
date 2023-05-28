@@ -20,9 +20,9 @@ export const Schedule = () => {
   const fetchSchedules = async () => {
     let data: any = null;
 
-    authData.role === 'BARBER' || authData.role === 'ADMIN'
-      ? (data = await getBarberSchedulesCurrentBarber(authData.token))
-      : (data = await getUserCurrentSchedules(authData.token));
+    authData.role === 'CLIENT'
+      ? (data = await getUserCurrentSchedules(authData.token))
+      : (data = await getBarberSchedulesCurrentBarber(authData.token));
 
     if (!data) {
       Alert.alert('Algo salió mal al consguir las citas');
