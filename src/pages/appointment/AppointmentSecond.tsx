@@ -128,7 +128,7 @@ export const AppointmentSecond = () => {
 
   return (
     <Layout>
-      <SafeAreaView>
+      <SafeAreaView style={[styles.container]}>
         <Text
           style={[styles.textLabel, { color: appTheme[theme].colorPrimary }]}
         >
@@ -143,8 +143,8 @@ export const AppointmentSecond = () => {
           setSelected={setSelectedDate}
           data={weekDays}
           save="key"
-          searchPlaceholder="Busca un barbero"
-          placeholder="Busca un barbero"
+          searchPlaceholder="Elige el día"
+          placeholder="Elige el día"
           closeicon={<SearchIcon />}
           arrowicon={<ArrowIcon />}
         />
@@ -163,8 +163,8 @@ export const AppointmentSecond = () => {
           setSelected={setSelectedTimeSlot}
           data={timeSlots}
           save="key"
-          searchPlaceholder="Busca un barbero"
-          placeholder="Busca un barbero"
+          searchPlaceholder="Elige una hora"
+          placeholder="Elige una hora"
           closeicon={<SearchIcon />}
           arrowicon={<ArrowIcon />}
         />
@@ -225,7 +225,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     justifyContent: 'space-evenly',
-    alignItems: 'center',
   },
   containerRow: {
     height: '50%',

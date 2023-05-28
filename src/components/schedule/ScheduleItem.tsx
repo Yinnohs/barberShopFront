@@ -42,8 +42,14 @@ export const ScheduleItem: FC<TScheduleItem> = ({
 
     services.forEach((service: IServiceStringPrice, i: number) => {
       serviceData.price += parseFloat(service.price);
-      serviceData.services += `${service.description}\n`;
+      serviceData.services += `${service.description},`;
     });
+
+    if (serviceData.services.split(',').length > 3) {
+      const serviceArray = serviceData.services.split(',').slice(0, 3);
+      serviceArray.push('...');
+      serviceData.services = serviceArray.join(',');
+    }
 
     setShowService(serviceData);
   };
@@ -89,7 +95,10 @@ export const ScheduleItem: FC<TScheduleItem> = ({
             Servicios:
           </Text>
           <Text
-            style={[styles.textSize, { color: appTheme[theme].colorPrimary }]}
+            style={[
+              styles.textSize,
+              { color: appTheme[theme].colorPrimary, fontSize: 12 },
+            ]}
           >
             {`${showService.services}`}
           </Text>
