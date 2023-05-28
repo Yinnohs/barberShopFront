@@ -6,6 +6,13 @@ export interface IAppointmentData {
   scheduledDateTime: string;
 }
 
+export interface ISchedule {
+  scheduleId: number;
+  barberId: number;
+  service: number[];
+  scheduledDateTime: string;
+}
+
 export interface IAppointment {
   appointment: IAppointmentData;
   setAppointment: Function;
@@ -23,6 +30,7 @@ export const AppointmentContext = createContext<IAppointment>({
 export const AppointmentProvider: FC<any> = ({ children }) => {
   const [appointment, setAppointment] = useState<IAppointmentData>({
     barberId: 0,
+
     service: [] as number[],
     scheduledDateTime: '',
   });

@@ -5,14 +5,15 @@ import { IBarber, ISchedule, ThemeContext } from '../../context';
 import { appTheme } from '../../theme';
 import moment from 'moment';
 
-interface IItem {
-  openModalFunction: Function;
+interface IServiceStringPrice {
+  id: number;
+  description: string;
+  price: string;
 }
 
-type TScheduleItem = Partial<IBarber & ISchedule> &
-  IItem & {
-    services: IService[];
-  };
+type TScheduleItem = Partial<IBarber & ISchedule> & {
+  services: IServiceStringPrice[];
+};
 
 interface IShowService {
   services: string;
@@ -22,8 +23,6 @@ interface IShowService {
 export const ScheduleItem: FC<TScheduleItem> = ({
   name,
   surname,
-  openModalFunction,
-  scheduleId,
   services,
   scheduledDateTime,
 }) => {
@@ -36,17 +35,15 @@ export const ScheduleItem: FC<TScheduleItem> = ({
   const currentDate = moment(scheduledDateTime);
 
   const formatServices = () => {
-    const serviceData: IShowService = services.reduce(
-      (prev: IShowService, current: IService, i: number) => {
-        prev.services += `${current.description}\n`;
-        prev.price += current.price;
-        return prev;
-      },
-      {
-        price: 0,
-        services: '',
-      },
-    );
+    const serviceData: IShowService = {
+      price: 0,
+      services: '',
+    };
+
+    services.forEach((service: IServiceStringPrice, i: number) => {
+      serviceData.price += parseFloat(service.price);
+      serviceData.services += `${service.description}\n`;
+    });
 
     setShowService(serviceData);
   };

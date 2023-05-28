@@ -15,14 +15,15 @@ export const Schedule = () => {
   const { authData } = useContext(AuthContext);
   const [schedules, setSchedules] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [idToDelete, setIdToDelete] = useState(0);
 
   const fetchSchedules = async () => {
     let data: any = null;
 
-    authData.role === 'CLIENT'
-      ? (data = await getUserCurrentSchedules(authData.token))
-      : (data = await getBarberSchedulesCurrentBarber(authData.token));
+    if (authData.role === 'CLIENT') {
+      data = await getUserCurrentSchedules(authData.token);
+    } else {
+      data = await getBarberSchedulesCurrentBarber(authData.token);
+    }
 
     if (!data) {
       Alert.alert('Algo salió mal al consguir las citas');
@@ -48,11 +49,7 @@ export const Schedule = () => {
         >
           Mis Citas
         </Text>
-        <ScheduleList
-          schedules={schedules}
-          openCloseModal={setIsOpen}
-          setIdToDelete={setIdToDelete}
-        />
+        <ScheduleList schedules={schedules} />
       </SafeAreaView>
     </Layout>
   );

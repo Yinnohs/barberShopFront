@@ -1,23 +1,12 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { FlatList } from 'react-native';
 import { ScheduleItem } from './ScheduleItem';
 
 interface IScheduleList {
   schedules: any[];
-  openCloseModal: Function;
-  setIdToDelete: Function;
 }
 
-export const ScheduleList: FC<IScheduleList> = ({
-  schedules,
-  openCloseModal,
-  setIdToDelete,
-}) => {
-  const openFunction = async (id: number) => {
-    openCloseModal(true);
-    setIdToDelete(id);
-  };
-
+export const ScheduleList: FC<IScheduleList> = ({ schedules }) => {
   return (
     <FlatList
       contentContainerStyle={{ alignItems: 'center', paddingBottom: 100 }}
@@ -25,7 +14,6 @@ export const ScheduleList: FC<IScheduleList> = ({
       keyExtractor={(data: any) => `service-${data?.id}`}
       renderItem={({ item }) => (
         <ScheduleItem
-          openModalFunction={() => openFunction(item.id)}
           services={item.service}
           name={item?.barber?.name}
           surname={item?.barber?.surname}

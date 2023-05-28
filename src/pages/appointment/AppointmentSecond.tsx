@@ -33,7 +33,7 @@ export const AppointmentSecond = () => {
   const { theme } = useContext(ThemeContext);
   const { appointment, setAppointment } = useContext(AppointmentContext);
   const { authData } = useContext(AuthContext);
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString());
+  const [selectedDate, setSelectedDate] = useState('');
   const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
   const [isLoading, setIsloading] = useState(false);
   const [weekDays, setWeekDays] = useState<{ key: string; value: string }[]>(
@@ -45,18 +45,27 @@ export const AppointmentSecond = () => {
 
   const navigation = useNavigation<RouteStackSelection<RootStack>>();
 
-  const initialLoad = async () => {
+  const initialLoad = () => {
+    let currentDate = new Date();
+    currentDate.setHours(9);
+    currentDate.setMinutes(0);
+    currentDate.setSeconds(0);
+    currentDate.setMilliseconds(0);
+    const weekDaysSlotsRaw = getWeekDaySlots(currentDate.toISOString());
+    const transformedWeekSlots = weekDaysSlotsRaw.map((slot) => {
+      return { key: slot, value: transformToFormatDays(slot) };
+    });
+
+    setWeekDays(transformedWeekSlots);
+  };
+
+  const handleTimeSlots = async () => {
     let timeSlots;
     let currentSelectedDate = new Date(selectedDate);
     currentSelectedDate.setHours(9);
     currentSelectedDate.setMinutes(0);
     currentSelectedDate.setSeconds(0);
     currentSelectedDate.setMilliseconds(0);
-    let currentDate = new Date();
-    currentDate.setHours(9);
-    currentDate.setMinutes(0);
-    currentDate.setSeconds(0);
-    currentDate.setMilliseconds(0);
 
     const selectedDateIsoString = currentSelectedDate.toISOString();
 
@@ -66,20 +75,16 @@ export const AppointmentSecond = () => {
       { currentDate: selectedDateIsoString },
     );
 
-    const weekDaysSlotsRaw = getWeekDaySlots(currentDate.toISOString());
-    const transformedWeekSlots = weekDaysSlotsRaw.map((slot) => {
-      return { key: slot, value: transformToFormatDays(slot) };
-    });
-
-    setWeekDays(transformedWeekSlots);
-
-    const today = new Date().toISOString();
-    const currentDates = getTimeSlotArray(today);
+    const currentDates = getTimeSlotArray(new Date().toISOString());
 
     timeSlots = currentDates;
 
     if (barberTakenAppointments.length > 0) {
-      timeSlots = filterTimeSlots(currentDates, barberTakenAppointments);
+      const takenAppointments = barberTakenAppointments.map(
+        (appointment: { ScheduledDateTime: string }) =>
+          appointment.ScheduledDateTime,
+      );
+      timeSlots = filterTimeSlots(currentDates, takenAppointments);
     }
 
     const result = timeSlots.map((slot) => {
@@ -105,7 +110,7 @@ export const AppointmentSecond = () => {
 
     if (!response) {
       setIsloading(false);
-      Alert.alert('Algo raro ocurrió al reservar la cita');
+      return Alert.alert('Algo raro ocurrió al reservar la cita');
     }
 
     setAppointment(resetPayload);
@@ -116,6 +121,9 @@ export const AppointmentSecond = () => {
 
   useEffect(() => {
     initialLoad();
+    if (selectedDate !== '') {
+      handleTimeSlots();
+    }
   }, [selectedDate]);
 
   return (
@@ -169,7 +177,7 @@ export const AppointmentSecond = () => {
             width={150}
             rounded={true}
             textColor={appTheme[theme].colorPrimary}
-            title="Cancelar"
+            title="Volver"
             type="outline"
             textSize={20}
           />
@@ -181,7 +189,7 @@ export const AppointmentSecond = () => {
             width={150}
             rounded={true}
             textColor={appTheme[theme].colorSurface}
-            title="Siguiente Paso"
+            title="Agendar cita"
             type="filled"
             textSize={20}
           />

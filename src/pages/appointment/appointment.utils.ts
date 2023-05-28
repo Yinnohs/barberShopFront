@@ -8,7 +8,7 @@ export const getTimeSlotArray = (today: string) => {
   startDate.set('seconds', 0);
   startDate.set('millisecond', 0);
   const hourDivider = 2;
-  let hoursOfDay = hourDivider * 13;
+  let hoursOfDay = hourDivider * 12;
 
   while (hoursOfDay--) {
     dates.push(startDate.toISOString());
@@ -42,7 +42,6 @@ export const filterTimeSlots = (
 };
 
 export const getWeekDaySlots = (today: string) => {
-  console.log({ today });
   const days = Array.apply(null, Array(7)).map((_, i) => {
     let value;
     if (i === 0) {
@@ -50,7 +49,6 @@ export const getWeekDaySlots = (today: string) => {
     } else {
       value = moment(today).add(i, 'day').isoWeekday(i).toISOString();
     }
-    console.log(value);
     return value;
   });
   return days;
